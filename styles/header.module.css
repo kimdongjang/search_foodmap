@@ -1,0 +1,55 @@
+.headerWrap{
+  margin: 0;
+}
+.navbarWrap {
+  /* ff 3.6+ */
+  background:-moz-radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
+
+  /* safari 5.1+,chrome 10+ */
+  background:-webkit-radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
+
+  /* opera 11.10+ */
+  background:-o-radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
+
+  /* ie 10+ */
+  background:-ms-radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
+
+  /* global 92%+ browsers support */
+  background:radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
+}
+.navbarContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0;
+}
+  .title {
+    margin: 0;
+    line-height: 1.15;
+    font-size: 4rem;
+    list-style: none;
+  }
+  
+  
+  .title a {
+    color: whitesmoke;
+    text-decoration: none;
+  }
+  
+  .title a:hover,
+  .title a:focus,
+  .title a:active {
+    text-decoration: underline;
+  }
+  
+  .title,
+  .description {
+    text-align: center;
+  }
+  
+  .description {
+    margin: 4rem 0;
+    line-height: 1.5;
+    font-size: 1.5rem;
+  }
+  
