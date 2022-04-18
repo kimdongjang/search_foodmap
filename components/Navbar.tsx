@@ -22,7 +22,7 @@ export default function Navbar() {
           </Link>
         </li>
         <li className={styles.title}>
-          <Link href="/boards">
+          <Link href="/login">
             <a>로그인</a>
           </Link>
         </li>
