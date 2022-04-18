@@ -21,6 +21,11 @@ export default function Navbar() {
             <a>게시판</a>
           </Link>
         </li>
+        <li className={styles.title}>
+          <Link href="/boards">
+            <a>로그인</a>
+          </Link>
+        </li>
       </ul>
     </div>
   )
