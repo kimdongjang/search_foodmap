@@ -18,16 +18,33 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['images.dog.ceo'],
-  },  
+  },
   env: {
     BASE_URL: process.env.BASE_URL,
   },
+  async rewrites() {
+    console.log(process.env.NODE_ENV);
+    if (process.env.NODE_ENV !== 'production') {
+      return [
+        {
+          destination: process.env.DESTINATION_URL,
+        }
+      ]
+    }
+    else
+      return [
+        {
+          destination: process.env.DESTINATION_URL,
+        }
+      ]
+  }
 }
 
 
 module.exports = [
-  nextConfig, 
+  nextConfig,
   withImages(),
+
   // {
   //   publicRuntimeConfig: {
   //     apiUrl: process.env.NODE_ENV === 'development'
