@@ -10,8 +10,8 @@ export interface ProductApi {
 
 const initialState: ProductApi = {
     loading: false,
-    data: { message:"https://images.dog.ceo/breeds/newfoundland/n02111277_7377.jpg", status:"test"},
-    error: null    
+    data: { message: "https://images.dog.ceo/breeds/newfoundland/n02111277_7377.jpg", status: "test" },
+    error: null
 }
 
 const productsSlice = createSlice({
@@ -21,14 +21,14 @@ const productsSlice = createSlice({
         // 액션에 따른 reducer 로직을 작성한다.
         // createSlice가 자동으로 state의 타입을 추론한다.
         // 또한 immer를 사용하고 있어 함수 몸체 안에서 직접 변경해도 불변성을 유지한다.
-        getProducts: (state) =>{
+        getProducts: (state) => {
             state.loading = true;
         },
         getProductsSuccess: (state, { payload }) => {
             state.data = payload;
             state.loading = false;
         },
-        getProductsError: (state, {payload })=>{
+        getProductsError: (state, { payload }) => {
             state.error = payload;
             state.loading = false;
         }
