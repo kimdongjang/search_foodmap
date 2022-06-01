@@ -4,9 +4,8 @@
 
 .imageSliderContainer{
     overflow: hidden;
-    max-width: 480px;
-    min-width: 280px;
     width: 100%;
+    height: 500px;
 }
 .imageContent{
     width: auto;

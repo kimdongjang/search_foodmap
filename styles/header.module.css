@@ -3,32 +3,29 @@
 }
 .navbarWrap {
   /* ff 3.6+ */
-  background:-moz-radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
-
-  /* safari 5.1+,chrome 10+ */
-  background:-webkit-radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
-
-  /* opera 11.10+ */
-  background:-o-radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
-
-  /* ie 10+ */
-  background:-ms-radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
-
-  /* global 92%+ browsers support */
-  background:radial-gradient(circle at 50% 51%, rgba(0, 217, 212, 1) 65%, rgba(0, 112, 243, 1) 100%);
+  background: #1565c0;
+  padding: 0.5em 6rem;
 }
 .navbarContainer{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin: 0;
+  flex: 1 1;
+  align-items: center;
 }
   .title {
-    margin: 0;
+    margin: 0.5em;
+    padding: 0.5em;
     line-height: 1.15;
-    font-size: 4rem;
+    font-size: 1em;
     list-style: none;
-  }
+    border: 2px solid #1976d2;
+    background-color: #1976d2;
+    border-radius: 5px; 
+    transition: all 1s;
+   }
+  
   
   
   .title a {
@@ -36,10 +33,14 @@
     text-decoration: none;
   }
   
-  .title a:hover,
-  .title a:focus,
-  .title a:active {
+  .title:hover,
+  .title:focus,
+  .title:active {
     text-decoration: underline;
+    background-color: #42a5f5;
+    border: 2px solid #42a5f5;
+    border-radius: 5px;
+    transition: all 1s;
   }
   
   .title,

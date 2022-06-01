@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import React, { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
@@ -9,9 +10,11 @@ import '../styles/globals.css'
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   return <>
     {/* <Provider store={makeStore()}> */}
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <SessionProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SessionProvider>
     {/* </Provider> */}
   </>
 };
