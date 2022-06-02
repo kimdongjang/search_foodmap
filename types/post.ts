@@ -1,4 +1,4 @@
-export type post = {
+export type Post = {
     post_id: number,
     title: string,
     author: string,

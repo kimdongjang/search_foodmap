@@ -10,6 +10,7 @@ import styles from '../styles/index.module.css'
 
 import ExImage from '../public/images/image1.jpg';
 import Image from 'next/image'
+import Link from 'next/link'
 
 export async function getStaticProps() {
   // 외부 API Endpoint로 Call해서 Post로 정보를 가져온다.
@@ -48,8 +49,8 @@ const Index: NextPage = (props: any) => {
     anchor.setAttribute("class", "twitter-timeline");
     anchor.setAttribute("data-chrome", "nofooter");
     anchor.setAttribute("sourceType", "profile");
-    anchor.setAttribute("screenName", "VHZ_EQue");   
-    anchor.setAttribute("data-height", "400");   
+    anchor.setAttribute("screenName", "VHZ_EQue");
+    anchor.setAttribute("data-height", "400");
     anchor.setAttribute("href", "https://twitter.com/VHZ_EQue");
     document.getElementsByClassName("twitter-timeline")[0].appendChild(anchor);
 
@@ -60,6 +61,11 @@ const Index: NextPage = (props: any) => {
 
   return (
     <div >
+      <div>
+        <Link href="/about">
+          <a style={{ float: "left" }}>about 페이지로 이동</a>
+        </Link>
+      </div>
       <div className={styles.twitterContainer}>
         <div className="twitter-timeline" data-height="50%"></div>
       </div>
