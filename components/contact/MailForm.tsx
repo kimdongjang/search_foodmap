@@ -1,6 +1,6 @@
 import React, { DetailedHTMLProps, FormEventHandler, FormHTMLAttributes, useEffect, useRef, useState } from "react";
 import emailjs, {init} from '@emailjs/browser';
-import './mailForm.module.css'
+// import './mailForm.module.css'
 
 type Props = {};
 
