@@ -10,7 +10,7 @@ const IndexPage: NextPage = () => (
       <Script src="https://code.jquery.com/jquery-1.12.4.min.js" />
       <Script src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js" />
     </div>    
-s
+
     <PaymentForm />
   </>
 );

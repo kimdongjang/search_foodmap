@@ -32,9 +32,7 @@ const bindMiddleware = (middlewares: Middleware[]): StoreEnhancer => {
 // Next Redux Wrapper 리듀서와 rootSaga를 묶음
 export const makeStore = () => {
   const sagaMiddleware = createSagaMiddleware();
-
   const store = createStore(rootReducer, bindMiddleware([sagaMiddleware]));
-
   sagaMiddleware.run(rootSaga);
 
   return store;
