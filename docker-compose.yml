@@ -5,6 +5,14 @@ networks:
     driver: bridge
 
 services:
+  nginx_proxy:
+    image: nginx:1.21.5-alpine
+    container_name: nginx_proxy    
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+
   next-client:
     container_name: next-client
     build:
@@ -12,12 +20,3 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 3000:3000
-
-  nginx_proxy:
-    image: nginx:latest
-    container_name: nginx_proxy    
-    ports:
-      - 80:80
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/variable.conf:/etc/nginx/variable.conf
