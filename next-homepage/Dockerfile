@@ -4,7 +4,7 @@ WORKDIR /usr/src/next
 
 COPY . /usr/src/next
 
-RUN npm install
+RUN npm install --no-cache
 
 COPY . /usr/src/next
 
