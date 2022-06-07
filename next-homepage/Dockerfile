@@ -2,7 +2,9 @@
 FROM node:alpine
 
 # Set working directory
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+ADD . /usr/src/app
 
 # Copy package.json and package-lock.json before other files
 # Utilise Docker cache to save re-installing dependencies if unchanged
@@ -13,8 +15,6 @@ RUN npm install
 
 # Copy all files
 COPY ./ ./
-
-
 
 ENV NODE_ENV production
 ENV PORT 3000

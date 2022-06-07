@@ -17,6 +17,6 @@ services:
     container_name: next-client
     build:
       context: ./
-      dockerfile: ./Dockerfile
+      dockerfile: ./next-homepage/Dockerfile
     ports:
       - 3000:3000
