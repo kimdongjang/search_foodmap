@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:alpine
 MAINTAINER kimdongjang
 
 # set our node environment, either development or production
