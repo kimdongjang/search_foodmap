@@ -1,33 +1,27 @@
-# Base on offical Node.js Alpine image
-FROM node:alpine
+FROM node:lts
+MAINTAINER kimdongjang
 
-# Set working directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-ADD . /usr/src/app
+# set our node environment, either development or production
+# defaults to production, compose overrides this to development on build and run
+ARG NODE_ENV=production
+ENV NODE_ENV $NODE_ENV
 
-# Copy package.json and package-lock.json before other files
-# Utilise Docker cache to save re-installing dependencies if unchanged
-COPY ./next-homepage/package*.json ./
+WORKDIR /next-server
 
-# Install dependencies
-RUN npm install
 
-# Copy all files
-COPY ./ ./
+# default to port 80 for node, and 9229 and 9230 (tests) for debug
+ARG PORT=3000
+ENV PORT $PORT
+EXPOSE $PORT 3000
 
-ENV NODE_ENV production
-ENV PORT 3000
+COPY ./next-homepage/package.json /next-server/package.json
+# COPY ./package-lock.json /next-server/package-lock.json
+RUN npm install --no-cache
 
-# Expose the listening port
-EXPOSE 3000
 
-# Run container as non-root (unprivileged) user
-# The node user is provided in the Node.js Alpine base image
-# USER node
-
-# Build app
-RUN npm run build
+# copy in our source code last, as it changes the most
+#COPY . /code
+COPY . /next-server
 
 # Run npm start script when container starts
 CMD [ "npm", "run", "start" ]
