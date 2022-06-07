@@ -1,29 +1,13 @@
-FROM node:lts
-MAINTAINER kimdongjang
+FROM node:14-alpine
 
-# set our node environment, either development or production
-# defaults to production, compose overrides this to development on build and run
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
+WORKDIR /usr/src/next
 
-WORKDIR /next-server
+COPY *.* /usr/src/next
 
+RUN npm install
 
-# default to port 80 for node, and 9229 and 9230 (tests) for debug
-ARG PORT=3000
-ENV PORT $PORT
-EXPOSE $PORT 3000
-
-COPY package.json /next-server/package.json
-# COPY ./package-lock.json /next-server/package-lock.json
-RUN npm install --no-cache
-
-
-# copy in our source code last, as it changes the most
-#COPY . /code
-COPY . /next-server
+COPY . /usr/src/next
 
 RUN npm run build
 
-# Run npm start script when container starts
-CMD [ "npm", "run", "start" ]
+CMD [ "npm" , "run" , "dev"]
