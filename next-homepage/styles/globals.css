@@ -1,4 +1,11 @@
+/** font **/
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+/** tailwind css header
+ Tailwind의 base, components, utilities 스타일을 tailwind directive를 이용해서 추가 **/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html,
 body {

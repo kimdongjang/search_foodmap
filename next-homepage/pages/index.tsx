@@ -61,29 +61,39 @@ const Index: NextPage = (props: any) => {
 
   return (
     <div >
-      <div>
-        <Link href="/about">
-          <a style={{ float: "left" }}>about 페이지로 이동</a>
-        </Link>
+      <h1 className="text-3xl font-bold underline">
+        Hello world!
+      </h1>
+      <div className='relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1'>
+        <p></p>
       </div>
-      <div className={styles.twitterContainer}>
-        <div className="twitter-timeline" data-height="50%"></div>
-      </div>
-      {/* <a className="twitter-timeline"
+      <div className="inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
+
+        <div>
+          <Link href="/about">
+            <a style={{ float: "left" }}>about 페이지로 이동</a>
+          </Link>
+        </div>
+        <div className={styles.twitterContainer}>
+          <div className="twitter-timeline" data-height="50%"></div>
+        </div>
+        {/* <a className="twitter-timeline"
           href="https://twitter.com/VHZ_EQue">
         Tweets by VHZ_EQue
         </a> */}
-      {/* <div>
+        {/* <div>
         <ImageSlider data={images} />
 
       </div> */}
-      <div>
-        <button onClick={pushEvent}>Push Button</button>
-        <img src={data?.message} alt="test" width={500} height={500}></img>
-        <div>{data?.message}
+        <div>
+          <button onClick={pushEvent}>Push Button</button>
+          <img src={data?.message} alt="test" width={500} height={500}></img>
+          <div>{data?.message}
+          </div>
         </div>
-      </div>
-    </div >
+      </div >
+    </div>
+
   )
 }
 
