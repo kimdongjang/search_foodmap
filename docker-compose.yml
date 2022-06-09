@@ -7,7 +7,9 @@ networks:
 services:
   nginx_proxy:
     image: nginx:alpine
-    container_name: nginx_proxy    
+    container_name: nginx_proxy   
+    build:
+      context: ./nginx 
     ports:
       - 80:80
     volumes:
