@@ -6,7 +6,7 @@ networks:
 
 services:
   nginx_proxy:
-    image: nginx:1.21.5-alpine
+    image: nginx:alpine
     container_name: nginx_proxy    
     ports:
       - 80:80
