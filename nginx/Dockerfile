@@ -6,7 +6,7 @@ FROM nginx:alpine
 
 # Copy config files
 # *.conf files in conf.d/ dir get included in main config
-COPY ./nginx.conf /etc/nginx/conf.d/
+COPY ./nginx.conf /etc/nginx
 
 # Expose the listening port
 EXPOSE 80
