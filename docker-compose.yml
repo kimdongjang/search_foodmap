@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  nginx-proxy:
+  nginx:
     container_name: nginx-proxy   
     build:
       context: ./nginx
