@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains="virtualhertz.hopto.org"
+domains="virtualhertz.hopto.org www.virtualhertz.hopto.org"
 rsa_key_size=4096
 data_path="../certbot"
 email="naru3644@gmail.com" # Adding a valid address is strongly recommended
