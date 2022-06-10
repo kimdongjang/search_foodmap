@@ -1,5 +1,9 @@
 version: "3.8"
 
+networks:
+    app-tier:
+        driver: bridge
+
 services:
   nginx-proxy:
     networks:
@@ -10,7 +14,7 @@ services:
     container_name: nginx-proxy
     volumes:
         - /app/node_modules
-        - ./frontend:/app
+        - ./next-homepage:/app
         - ../certbot/conf:/etc/letsencrypt # 추가
         - ../certbot/www:/var/www/certbot # 추가
     restart: always
