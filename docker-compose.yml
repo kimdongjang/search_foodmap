@@ -3,11 +3,16 @@ version: "3.8"
 services:
   next-client:
     container_name: next-client
+    restart: "on-failure"
     build:
       context: ./next-homepage
     ports:
       - 3000:3000
-
+    volumes:
+      # hot reload를 위해 mount
+      - "./next:/usr/src/next"
+      - "/usr/src/next/node_modules"
+      - "/usr/src/next/.next" 
   # nginx:
   #   container_name: nginx-proxy   
   #   build:
