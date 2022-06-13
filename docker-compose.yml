@@ -8,11 +8,10 @@ services:
       context: ./next-homepage
     ports:
       - 3000:3000
-    volumes:
-      # hot reload를 위해 mount
-      - "./next:/usr/src/next"
-      - "/usr/src/next/node_modules"
-      - "/usr/src/next/.next" 
+  #  volumes:
+  #    - "./next:/usr/src/next"
+  #    - "/usr/src/next/node_modules"
+  #    - "/usr/src/next/.next" 
   # nginx:
   #   container_name: nginx-proxy   
   #   build:
