@@ -11,25 +11,46 @@ import styles from '../styles/index.module.css'
 import ExImage from '../public/images/image1.jpg';
 import Image from 'next/image'
 import Link from 'next/link'
+import axios, { AxiosResponse } from 'axios'
 
-export async function getStaticProps() {
-  // 외부 API Endpoint로 Call해서 Post로 정보를 가져온다.
-  // const res = await fetch("https://.../posts");
-  // const posts = await res.json();
+// export async function getStaticProps() {
+//   // 외부 API Endpoint로 Call해서 Post로 정보를 가져온다.
+//   // const res = await fetch("https://.../posts");
+//   // const posts = await res.json();
+//   const url: string = "/images/image1.jpg"
+
+//   // posts 데이터가 담긴 prop를 빌드 시간에 Blog 컴포넌트로 전달한다.
+//   return {
+//     props: {
+//       url
+//     }
+//   };
+// }
+
+export async function getServerSideProps(context: any) {
   const url: string = "/images/image1.jpg"
 
-  // posts 데이터가 담긴 prop를 빌드 시간에 Blog 컴포넌트로 전달한다.
+  console.log(process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL)
+  const res: AxiosResponse<any, any> = await axios.post(process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL+"redis/visit");
   return {
     props: {
-      url
-    }
-  };
+      visitor: res.data,
+      url: url
+    },
+  }
 }
 
 
 
 const Index: NextPage = (props: any) => {
   console.log(props);
+  console.log(
+    "d", process.env.DESTINATION_URL,
+    "pd", process.env.NEXT_PUBLIC_DESTINATION_URL,
+    "dd" ,process.env.DEVELOPMENT_DESTINATION_URL,
+    "npdd" ,process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL,
+    "pd", process.env.PRODUCTION_DESTINATION_URL,
+    "nppd" ,process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
   const dispatch = useDispatch();
   const data: Product = useSelector((state: ProductState) => state.data)
   const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
@@ -61,9 +82,14 @@ const Index: NextPage = (props: any) => {
 
   return (
     <div >
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      {/* padding Y axis 8rem, text-aling: center */}
+      <div className='py-32 text-center'>
+        {/* font-size:2.25rem, line-height: 2.5rem, extra-large */}
+        <div className='text-4xl font-extrabold'>
+          방문자 : {props.visitor}          
+        </div>
+      </div>
+
       <div className='relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1'>
         <p></p>
       </div>

@@ -1,23 +1,23 @@
 version: "3.8"
 
 services:
-  #next-client:
-  #  container_name: next-client
-  #  restart: "on-failure"
-  #  build:
-  #    context: ./next-homepage
-  #  ports:
-  #    - 3000:3000
-  nginx-proxy:
-    container_name: nginx-proxy   
+  next-client:
+    container_name: next-client
+    restart: "on-failure"
     build:
-      context: ./nginx
+      context: ./next-homepage
     ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - 3000:3000
+  #nginx-proxy:
+  #  container_name: nginx-proxy   
+  #  build:
+  #    context: ./nginx
+  #  ports:
+  #    - 80:80
+  #    - 443:443
+  #  volumes:
+  #    - ./data/certbot/conf:/etc/letsencrypt
+  #    - ./data/certbot/www:/var/www/certbot
   
   #  volumes:
   #    - "./next:/usr/src/next"
