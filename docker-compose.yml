@@ -1,13 +1,13 @@
 version: "3.8"
 
 services:
-  next-client:
-    container_name: next-client
-    restart: "on-failure"
-    build:
-      context: ./next-homepage
-    ports:
-      - 3000:3000
+  #next-client:
+  #  container_name: next-client
+  #  restart: "on-failure"
+  #  build:
+  #    context: ./next-homepage
+  #  ports:
+  #    - 3000:3000
   nginx-proxy:
     container_name: nginx-proxy   
     build:
