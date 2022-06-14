@@ -12,6 +12,7 @@ COPY ./nginx.conf /etc/nginx
 
 # Expose the listening port
 EXPOSE 80
+EXPOSE 443
 
 # Launch NGINX
 CMD [ "nginx", "-g", "daemon off;" ]
