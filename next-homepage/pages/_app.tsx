@@ -37,5 +37,5 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
 //   return { ...appProps }
 // }
 
-export default wrapper.withRedux(MyApp);
+export default wrapper.withRedux(MyApp)
 

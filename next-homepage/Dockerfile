@@ -4,10 +4,10 @@ WORKDIR /usr/src/next
 
 COPY . /usr/src/next
 
-RUN npm install
+RUN npm install --no-cache
 
 COPY . /usr/src/next
 
 RUN npm run build
 
-CMD [ "npm" , "run" , "dev"]
+CMD [ "npm" , "run" , "start"]
