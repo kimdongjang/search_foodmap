@@ -47,17 +47,23 @@ module.exports = [
   /**
    * phase는 구성이 로드되는 현재 컨텍스트
    */
+  {
+    env: {
+      RECAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+    },
+  },
+
   (phase, { defaultConfig }) => {
-    if (phase === PHASE_DEVELOPMENT_SERVER) {      
+    if (phase === PHASE_DEVELOPMENT_SERVER) {
       /* development only config options here */
       console.log("I'm in dev mode")
-    }    
-    if( phase === PHASE_PRODUCTION_BUILD){
-      console.log("I'm in prod mode")
-      
     }
-  
-    /* config options for all phases except development here */  
+    if (phase === PHASE_PRODUCTION_BUILD) {
+      console.log("I'm in prod mode")
+
+    }
+
+    /* config options for all phases except development here */
     return withEnv(defaultConfig)
   }
 
