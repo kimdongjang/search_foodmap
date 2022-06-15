@@ -8,6 +8,6 @@ RUN npm install --no-cache
 
 COPY . /usr/src/next
 
-RUN npm run build
+# RUN npm run build
 
 CMD [ "npm" , "run" , "dev"]
