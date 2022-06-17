@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ImageSlider from '../components/ImageSlider'
 import Navbar from '../components/Navbar'
@@ -11,7 +11,7 @@ import styles from '../styles/index.module.css'
 import ExImage from '../public/images/image1.jpg';
 import Image from 'next/image'
 import Link from 'next/link'
-import axios, { AxiosResponse } from 'axios'
+import axios, {  AxiosResponse } from 'axios'
 
 // export async function getStaticProps() {
 //   // 외부 API Endpoint로 Call해서 Post로 정보를 가져온다.
@@ -29,12 +29,11 @@ import axios, { AxiosResponse } from 'axios'
 
 export async function getServerSideProps(context: any) {
   const url: string = "/images/image1.jpg"
+  console.log(process.env.SERVER_DOMAIN)
+  
 
-  console.log(process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL)
-  const res: AxiosResponse<any, any> = await axios.post(process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL+"redis/visit");
   return {
     props: {
-      visitor: res.data,
       url: url
     },
   }
@@ -56,8 +55,18 @@ const Index: NextPage = (props: any) => {
   const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
   const tweet_eque_id: string = "1455546852137480196"
 
+  const [visitor, setVisitor] = useState<number>(0);
+
   useEffect(() => {
     TweetContainerInit();
+   
+    async function get() {
+      const result: AxiosResponse<any, any> = await axios.post("/redis/visit");
+      console.log(result.data)
+      if (result) setVisitor(result.data)
+    }
+    get();
+
     dispatch(productsActions.getProducts());
   }, []);
 
@@ -86,7 +95,7 @@ const Index: NextPage = (props: any) => {
       <div className='py-32 text-center'>
         {/* font-size:2.25rem, line-height: 2.5rem, extra-large */}
         <div className='text-4xl font-extrabold'>
-          방문자 : {props.visitor}          
+          방문자 : {visitor}          
         </div>
       </div>
 
