@@ -1,3 +1,4 @@
+import axios from "axios";
 import { NextPage } from "next";
 import { Session } from "next-auth";
 // import { signIn, useSession } from "next-auth/react";
@@ -9,6 +10,8 @@ const Login: NextPage = (props: any) => {
     const [password, setPassword] = useState<string>("12345678");
     const [sitekey, setSitekey] = useState<string>("");
     const recaptchaRef = useRef<any>();
+    
+
     useEffect(()=>{
         console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)        
         try{
@@ -32,6 +35,17 @@ const Login: NextPage = (props: any) => {
         // Else reCAPTCHA was executed successfully so proceed with the 
         // alert
         alert(`Hey, ${email}`);
+
+         async function login(){
+            const { data, headers: returnedHeaders } = await axios.post(
+                'http://localhost:3001/auth/login', // Node.js backend path
+                {
+                    email, password
+                }, // Login body (email + password)
+                { headers } // Headers from the Next.js Client
+              )
+         } 
+
         // Reset the reCAPTCHA so that it can be executed again if user 
         // submits another email.
         recaptchaRef.current.reset();

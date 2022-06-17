@@ -21,21 +21,21 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   </>
 };
 
-// App.getInitialProps = async (appContext: AppContext) => {
-//   const appProps = await App.getInitialProps(appContext)
+App.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext)
 
-//   const { ctx } = appContext;
-//   const allCookies = cookies(ctx);
-//   console.log("Coockie", allCookies)
+  const { ctx } = appContext;
+  const allCookies = cookies(ctx);
+  console.log("Cookie", allCookies)
 
-//   const accessTokenByCookie = allCookies['accessToken'];
-//   if (accessTokenByCookie !== undefined) {
-//     const refreshTokenByCookie = (allCookies["refreshToken"] || "");
-//     // setToken(accessTokenByCookie, refreshTokenByCookie)
-//   }
+  const accessTokenByCookie = allCookies['accessToken'];
+  if (accessTokenByCookie !== undefined) {
+    const refreshTokenByCookie = (allCookies["refreshToken"] || "");
+    setToken(accessTokenByCookie, refreshTokenByCookie)
+  }
 
-//   return { ...appProps }
-// }
+  return { ...appProps }
+}
 
 export default wrapper.withRedux(MyApp)
 

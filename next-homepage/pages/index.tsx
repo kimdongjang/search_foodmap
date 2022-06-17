@@ -8,10 +8,11 @@ import { Product } from '../interfaces/Product'
 import { productsActions, ProductState } from '../modules/reducers/productReducer'
 import styles from '../styles/index.module.css'
 
-import ExImage from '../public/images/image1.jpg';
-import Image from 'next/image'
+
+import Router from "next/router";
+import NProgress from "nprogress";
 import Link from 'next/link'
-import axios, {  AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 // export async function getStaticProps() {
 //   // 외부 API Endpoint로 Call해서 Post로 정보를 가져온다.
@@ -30,7 +31,7 @@ import axios, {  AxiosResponse } from 'axios'
 export async function getServerSideProps(context: any) {
   const url: string = "/images/image1.jpg"
   console.log(process.env.SERVER_DOMAIN)
-  
+
 
   return {
     props: {
@@ -46,10 +47,10 @@ const Index: NextPage = (props: any) => {
   console.log(
     "d", process.env.DESTINATION_URL,
     "pd", process.env.NEXT_PUBLIC_DESTINATION_URL,
-    "dd" ,process.env.DEVELOPMENT_DESTINATION_URL,
-    "npdd" ,process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL,
+    "dd", process.env.DEVELOPMENT_DESTINATION_URL,
+    "npdd", process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL,
     "pd", process.env.PRODUCTION_DESTINATION_URL,
-    "nppd" ,process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
+    "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
   const dispatch = useDispatch();
   const data: Product = useSelector((state: ProductState) => state.data)
   const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
@@ -58,15 +59,32 @@ const Index: NextPage = (props: any) => {
   const [visitor, setVisitor] = useState<number>(0);
 
   useEffect(() => {
+    const start = () => {
+      NProgress.start();
+    };
+    const end = () => {
+      NProgress.done();
+    };
+
+    Router.events.on("routeChangeStart", start);
+    Router.events.on("routeChangeComplete", end);
+    Router.events.on("routeChangeError", end);
+
+    return () => {
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
+
     TweetContainerInit();
-   
+
     async function get() {
-      try{
+      try {
         const result: AxiosResponse<any, any> = await axios.post("/redis/visit");
         console.log(result.data)
-      if (result) setVisitor(result.data)
+        if (result) setVisitor(result.data)
       }
-      catch(e){
+      catch (e) {
 
       }
     }
@@ -100,7 +118,7 @@ const Index: NextPage = (props: any) => {
       <div className='py-32 text-center'>
         {/* font-size:2.25rem, line-height: 2.5rem, extra-large */}
         <div className='text-4xl font-extrabold'>
-          방문자 : {visitor}          
+          방문자 : {visitor}
         </div>
       </div>
 
