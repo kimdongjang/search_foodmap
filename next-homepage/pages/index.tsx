@@ -61,9 +61,14 @@ const Index: NextPage = (props: any) => {
     TweetContainerInit();
    
     async function get() {
-      const result: AxiosResponse<any, any> = await axios.post("/redis/visit");
-      console.log(result.data)
+      try{
+        const result: AxiosResponse<any, any> = await axios.post("/redis/visit");
+        console.log(result.data)
       if (result) setVisitor(result.data)
+      }
+      catch(e){
+
+      }
     }
     get();
 

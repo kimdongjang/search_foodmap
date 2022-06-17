@@ -1,5 +1,3 @@
-
-
 import { NextPage } from "next";
 import { Session } from "next-auth";
 // import { signIn, useSession } from "next-auth/react";
@@ -7,13 +5,21 @@ import React, { FormEventHandler, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const Login: NextPage = (props: any) => {
-    const [email, setEmail] = useState("naru3644@gmail.com");
-    const [password, setPassword] = useState("12345678");
+    const [email, setEmail] = useState<string>("naru3644@gmail.com");
+    const [password, setPassword] = useState<string>("12345678");
+    const [sitekey, setSitekey] = useState<string>("");
     const recaptchaRef = useRef<any>();
+    useEffect(()=>{
+        console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)        
+        try{
+            setSitekey(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+        }catch(e){
+            setSitekey("");
+        }
+    },[])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         console.log("submit")
-        console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
         event.preventDefault();
         recaptchaRef.current.execute();
     }
@@ -38,7 +44,7 @@ const Login: NextPage = (props: any) => {
                     <form onSubmit={handleSubmit}>
                         <ReCAPTCHA
                             ref={recaptchaRef}
-                            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                            sitekey={sitekey}
                             onChange={onReCAPTCHAChange} />
                         <div className="mb-4">
                             <label className="block mb-1" >Email-Address</label>

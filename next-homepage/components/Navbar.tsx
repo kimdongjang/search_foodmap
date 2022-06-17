@@ -55,6 +55,9 @@ export default function Navbar() {
         <Link href="/boards">
           <a className='block py-2 px-4 text-sm hover:bg-gray-200'>게시판</a>
         </Link>
+        <Link href="/login">
+          <a className='block py-2 px-4 text-sm bg-yellow-400 hover:bg-yellow-300'>로그인</a>
+        </Link>
 
       </div>
     </nav>
