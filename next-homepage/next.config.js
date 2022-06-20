@@ -46,6 +46,10 @@ module.exports = (phase, { defaultConfig }) => {
         source: '/redis/:path*',
         destination: "http://172.12.0.1:4949/redis/:path*",
       },
+      {
+        source: '/auth/:path*',
+        destination: "http://172.12.0.1:4949/auth/:path*",
+      },
     ];
   }
   const nextConfig = {    
