@@ -8,5 +8,6 @@ export type Post = {
     apply_date?: number,
     recommand?: number,
     count?: number,
+    image: string,
     
 }

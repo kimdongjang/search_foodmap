@@ -10,16 +10,16 @@ const Login: NextPage = (props: any) => {
     const [password, setPassword] = useState<string>("12345678");
     const [sitekey, setSitekey] = useState<string>("");
     const recaptchaRef = useRef<any>();
-    
 
-    useEffect(()=>{
-        console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)        
-        try{
+
+    useEffect(() => {
+        console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
+        try {
             setSitekey(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
-        }catch(e){
+        } catch (e) {
             setSitekey("");
         }
-    },[])
+    }, [])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         console.log("submit")
@@ -36,15 +36,26 @@ const Login: NextPage = (props: any) => {
         // alert
         alert(`Hey, ${email}`);
 
-         async function login(){
-            const { data, headers: returnedHeaders } = await axios.post(
-                'http://localhost:3001/auth/login', // Node.js backend path
-                {
-                    email, password
-                }, // Login body (email + password)
-                { headers } // Headers from the Next.js Client
-              )
-         } 
+        async function login() {
+            try {
+                const { data, headers: returnedHeaders } = await axios.post(
+                    'http://localhost:3001/auth/login', // Node.js backend path
+                    {
+                        email, password
+                    }, // Login body (email + password)
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    } // Headers from the Next.js Client
+                )
+                console.log(data)
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+        login();
 
         // Reset the reCAPTCHA so that it can be executed again if user 
         // submits another email.
@@ -59,6 +70,7 @@ const Login: NextPage = (props: any) => {
                         <ReCAPTCHA
                             ref={recaptchaRef}
                             sitekey={sitekey}
+                            size="invisible"                            
                             onChange={onReCAPTCHAChange} />
                         <div className="mb-4">
                             <label className="block mb-1" >Email-Address</label>

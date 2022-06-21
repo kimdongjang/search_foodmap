@@ -8,7 +8,7 @@ export interface ProductApi {
     error: AxiosError | null;
 }
 
-const initialState: ProductApi = {
+const internalInitialState: ProductApi = {
     loading: false,
     data: { message: "https://images.dog.ceo/breeds/newfoundland/n02111277_7377.jpg", status: "test" },
     error: null
@@ -16,7 +16,7 @@ const initialState: ProductApi = {
 
 const productsSlice = createSlice({
     name: "products",
-    initialState,
+    initialState:internalInitialState,
     reducers: {
         // 액션에 따른 reducer 로직을 작성한다.
         // createSlice가 자동으로 state의 타입을 추론한다.
