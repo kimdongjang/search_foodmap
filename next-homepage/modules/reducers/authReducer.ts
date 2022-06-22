@@ -1,5 +1,6 @@
 import { createSlice, SerializedError } from "@reduxjs/toolkit"
 import { PayloadAction } from "typesafe-actions"
+import { fetchUser, register } from "../../auth/thunk"
 
 export enum AuthStates {
   IDLE = 'idle',
@@ -33,7 +34,28 @@ const authSlice = createSlice({
     },
     reset: () => internalInitialState,
   },
-  extraReducers: (builder) => {} // here will end up async more complex reducers
+  
+  // createAsyncThunk를 통해 생성한 함수의 콜백을 사용하는 builder를 리듀서에 연결
+  extraReducers: (builder) => {
+    builder.addCase(fetchUser.rejected, (state, action) => {
+      // 1. Reset state with initial state + add error to state.
+      // thunkAPI.rejectWithValue를 통해 에러가 발생할 경우, 초기 상태로 돌리고 에러를 반환
+      state = { ...internalInitialState, error: action.error }
+      // 2. VERY IMPORTANT! Throw an error!
+      throw new Error(action.error.message)
+    })
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      // Update the state.
+      // fulfilled, 작업이 성공할 경우 데이터를 가져옴
+      state.me = action.payload
+      state.loading = AuthStates.IDLE
+    })
+    builder.addCase(register.pending, (state, _action) => {
+      // Update the state.
+      // 여전히 데이터를 가져오는 상태인 경우 보류임.
+      state.loading = AuthStates.LOADING
+    })
+  },
 })
 
 

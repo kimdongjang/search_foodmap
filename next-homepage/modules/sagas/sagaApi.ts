@@ -15,6 +15,7 @@ function* getApiProducts() {
       // axios를 통해 요청하기 때문에 AxiosResponse로 타입을 명시해준다.
       const response: AxiosResponse = yield call(CallApi);
       console.log("Response" + response.data)
+      console.log("Response" + response)
       // put(action)은 action을 dispatch를 한다.
       yield put(productsActions.getProductsSuccess(response.data));
     } catch (error) {

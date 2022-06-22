@@ -52,7 +52,7 @@ const Index: NextPage = (props: any) => {
     "pd", process.env.PRODUCTION_DESTINATION_URL,
     "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
   const dispatch = useDispatch();
-  const data: Product = useSelector((state: ProductState) => state.data)
+  const data: Product = useSelector((state:any) => state.productReducer.data)
   const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
   const tweet_eque_id: string = "1455546852137480196"
 
@@ -70,17 +70,11 @@ const Index: NextPage = (props: any) => {
     Router.events.on("routeChangeComplete", end);
     Router.events.on("routeChangeError", end);
 
-    return () => {
-      Router.events.off("routeChangeStart", start);
-      Router.events.off("routeChangeComplete", end);
-      Router.events.off("routeChangeError", end);
-    };
-
-    TweetContainerInit();
+    // TweetContainerInit();
 
     async function get() {
       try {
-        const result: AxiosResponse<any, any> = await axios.post("/redis/visit");
+        const result = await axios.post("/redis/visit");
         console.log(result.data)
         if (result) setVisitor(result.data)
       }
@@ -91,6 +85,13 @@ const Index: NextPage = (props: any) => {
     get();
 
     dispatch(productsActions.getProducts());
+
+    
+    return () => {
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
   }, []);
 
   const pushEvent = useCallback(() => {
