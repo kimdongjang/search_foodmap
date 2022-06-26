@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useCallback, useEffect, useState } from 'react'
+import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ImageSlider from '../components/ImageSlider'
 import Navbar from '../components/Navbar'
@@ -8,11 +8,15 @@ import { Product } from '../interfaces/Product'
 import { productsActions, ProductState } from '../modules/reducers/productReducer'
 import styles from '../styles/index.module.css'
 
+import dynamic from 'next/dynamic'
+
 
 import Router from "next/router";
 import NProgress from "nprogress";
 import Link from 'next/link'
 import axios, { AxiosResponse } from 'axios'
+import Image from 'next/image'
+import { createImportSpecifier } from 'typescript'
 
 // export async function getStaticProps() {
 //   // 외부 API Endpoint로 Call해서 Post로 정보를 가져온다.
@@ -52,13 +56,19 @@ const Index: NextPage = (props: any) => {
     "pd", process.env.PRODUCTION_DESTINATION_URL,
     "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
   const dispatch = useDispatch();
-  const data: Product = useSelector((state:any) => state.productReducer.data)
+  const data: Product = useSelector((state: any) => state.productReducer.data)
   const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
   const tweet_eque_id: string = "1455546852137480196"
 
+  const topRef = useRef(null); // top으로 올리는 버튼
+  const [showTopButton, setShowTopButton] = useState(false);
+  const displayAfter = 600;
+
   const [visitor, setVisitor] = useState<number>(0);
 
+  // 처음 실행되었을떄의 처리
   useEffect(() => {
+
     const start = () => {
       NProgress.start();
     };
@@ -70,7 +80,7 @@ const Index: NextPage = (props: any) => {
     Router.events.on("routeChangeComplete", end);
     Router.events.on("routeChangeError", end);
 
-    // TweetContainerInit();
+    TweetContainerInit();
 
     async function get() {
       try {
@@ -86,7 +96,7 @@ const Index: NextPage = (props: any) => {
 
     dispatch(productsActions.getProducts());
 
-    
+
     return () => {
       Router.events.off("routeChangeStart", start);
       Router.events.off("routeChangeComplete", end);
@@ -113,14 +123,20 @@ const Index: NextPage = (props: any) => {
     document.getElementsByClassName("twitter-timeline")[0].appendChild(script);
   }
 
+
+  console.log("타임아웃 전")
+  setTimeout(() => { console.log("타임아웃 후") }, 5000)
+
+
   return (
-    <div >
-      {/* padding Y axis 8rem, text-aling: center */}
-      <div className='py-32 text-center'>
-        {/* font-size:2.25rem, line-height: 2.5rem, extra-large */}
-        <div className='text-4xl font-extrabold'>
-          방문자 : {visitor}
-        </div>
+    <div ref={topRef}>
+      <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
+
+      <div className='plex justify-center items-center border-2 ring-2 ' >
+        <Image src="/images/test1.jpg" layout="responsive" width={1200} height={700}></Image>
+      </div>
+      <div className='plex justify-center items-center border-2 ring-2' >
+        <Image src="/images/test2.jpg" layout="responsive" width={1200} height={700}></Image>
       </div>
 
       <div className='relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1'>
@@ -136,14 +152,7 @@ const Index: NextPage = (props: any) => {
         <div className={styles.twitterContainer}>
           <div className="twitter-timeline" data-height="50%"></div>
         </div>
-        {/* <a className="twitter-timeline"
-          href="https://twitter.com/VHZ_EQue">
-        Tweets by VHZ_EQue
-        </a> */}
-        {/* <div>
-        <ImageSlider data={images} />
 
-      </div> */}
         <div>
           <button onClick={pushEvent}>Push Button</button>
           <img src={data?.message} alt="test" width={500} height={500}></img>
@@ -151,11 +160,47 @@ const Index: NextPage = (props: any) => {
           </div>
         </div>
       </div >
-    </div>
+      <div className='py-32 text-center'>
+        {/* font-size:2.25rem, line-height: 2.5rem, extra-large */}
+        <div className='text-4xl font-extrabold'>
+          방문자 : {visitor}
+        </div>
+      </div>
+    </div >
 
   )
 }
 
+function TopButton({ displayAfter, target }: any) {
+  const [showButton, setShowButton] = useState(true);
+  const handleShowButton = () => {
+    if (!showButton && window.scrollY > displayAfter) {
+      setShowButton(true);
+      return;
+    }
+    if (!showButton && window.scrollY <= displayAfter) {
+      setShowButton(false);
+      return;
+    }
+  };
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      console.log("window undefiend")
+      return window.addEventListener("scroll", handleShowButton);
+    }
+  });
+
+  const scrollToRef = (target: any) => {
+    window.scrollTo({
+      top: target.current.offsetTop,
+      behavior: "smooth"
+    });
+  };
+  if (showButton) {
+    return <button className="fixed bottom-10 left-5 w-10 h-10 bg-green-300 ring-2" onClick={() => scrollToRef(target)}>TOP</button>;
+  }
+  return <div />;
+}
 
 
 export default Index;
