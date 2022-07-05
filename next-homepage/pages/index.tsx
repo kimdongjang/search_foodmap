@@ -1,40 +1,11 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import ImageSlider from '../components/ImageSlider'
-import Navbar from '../components/Navbar'
 import { Product } from '../interfaces/Product'
 import { productsActions, ProductState } from '../modules/reducers/productReducer'
-import styles from '../styles/index.module.css'
-
-import dynamic from 'next/dynamic'
-
-
-import Router from "next/router";
-import NProgress from "nprogress";
-import Link from 'next/link'
 import axios, { AxiosResponse } from 'axios'
-<<<<<<< HEAD
 import { testFetch } from '../modules/reducers/apiReducer'
-=======
-import Image from 'next/image'
-import { createImportSpecifier } from 'typescript'
->>>>>>> 48052c679c162663354d161e4a95a2cac0f261b2
-
-// export async function getStaticProps() {
-//   // 외부 API Endpoint로 Call해서 Post로 정보를 가져온다.
-//   // const res = await fetch("https://.../posts");
-//   // const posts = await res.json();
-//   const url: string = "/images/image1.jpg"
-
-//   // posts 데이터가 담긴 prop를 빌드 시간에 Blog 컴포넌트로 전달한다.
-//   return {
-//     props: {
-//       url
-//     }
-//   };
-// }
+import { AiOutlineSearch } from "react-icons/ai"
 
 export async function getServerSideProps(context: any) {
   const url: string = "/images/image1.jpg"
@@ -70,22 +41,24 @@ const Index: NextPage = (props: any) => {
 
   const [visitor, setVisitor] = useState<number>(0);
 
-  // 처음 실행되었을떄의 처리
+  const recommandList = [{
+    name: "test1",
+    type: "test"
+  },
+  {
+    name: "test2",
+    type: "test"
+  },
+  {
+    name: "test3",
+    type: "test"
+  },
+  {
+    name: "test4",
+    type: "test"
+  }]
+
   useEffect(() => {
-
-    const start = () => {
-      NProgress.start();
-    };
-    const end = () => {
-      NProgress.done();
-    };
-
-    Router.events.on("routeChangeStart", start);
-    Router.events.on("routeChangeComplete", end);
-    Router.events.on("routeChangeError", end);
-
-    TweetContainerInit();
-
     async function get() {
       try {
         const result = await axios.post("/redis/visit");
@@ -96,28 +69,18 @@ const Index: NextPage = (props: any) => {
 
       }
     }
-    get();
+    // get();
 
     async function test() {
       try {
         const result = await dispatch(testFetch())
         console.log(result)
-        // if (result) setVisitor(result.data)
       }
       catch (e) {
 
       }
     }
     test();
-
-    // dispatch(productsActions.getProducts());
-
-
-    return () => {
-      Router.events.off("routeChangeStart", start);
-      Router.events.off("routeChangeComplete", end);
-      Router.events.off("routeChangeError", end);
-    };
   }, []);
 
   const pushEvent = useCallback(() => {
@@ -138,49 +101,48 @@ const Index: NextPage = (props: any) => {
     script.setAttribute("src", "https://platform.twitter.com/widgets.js");
     document.getElementsByClassName("twitter-timeline")[0].appendChild(script);
   }
-
-
-  console.log("타임아웃 전")
-  setTimeout(() => { console.log("타임아웃 후") }, 5000)
-
+  {/* <div className={styles.twitterContainer}>
+    <div className="twitter-timeline" data-height="50%"></div>
+  </div> */}
 
   return (
-    <div ref={topRef}>
+    <div ref={topRef} className='relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 h-screen'>
       <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
-
-      <div className='plex justify-center items-center border-2 ring-2 ' >
-        <Image src="/images/test1.jpg" layout="responsive" width={1200} height={700}></Image>
-      </div>
-      <div className='plex justify-center items-center border-2 ring-2' >
-        <Image src="/images/test2.jpg" layout="responsive" width={1200} height={700}></Image>
-      </div>
-
-      <div className='relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1'>
-        <p></p>
-      </div>
-      <div className="inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
-
+      <div>
+        <form method="get" action="#" className="relative z-50">
+          <button type="submit" id="searchsubmit" className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+          <input type="text" name="s" id="s" className="w-full pl-10 pr-3 py-2 border border-transparent 
+            rounded-md leading-5 bg-red-600 text-gray-300 placeholder-gray-400
+            focus:outline-none focus:bg-white focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out" placeholder="Search">
+          </input>
+        </form>
         <div>
-          <Link href="/about">
-            <a style={{ float: "left" }}>about 페이지로 이동</a>
-          </Link>
+          <ul className="flex flex-column">
+            {recommandList.map((data, i) => {
+              return(
+                <div className="inline p-4 flex flex-column">
+                  <li key={i} className="p-4">{data.name}</li>
+                  <div className='bg-gray-300 w-1 h-4 p-4'></div>
+                </div>
+              )
+            })}
+          </ul>
         </div>
-        <div className={styles.twitterContainer}>
-          <div className="twitter-timeline" data-height="50%"></div>
-        </div>
-
-        <div>
+      </div>
+      {/* <div >   
           <button onClick={pushEvent}>Push Button</button>
           <img src={data?.message} alt="test" width={500} height={500}></img>
-          <div>{data?.message}
-          </div>
-        </div>
-      </div >
+          <div>{data?.message}</div>
+      </div > */}
       <div className='py-32 text-center'>
         {/* font-size:2.25rem, line-height: 2.5rem, extra-large */}
-        <div className='text-4xl font-extrabold'>
+        {/* <div className='text-4xl font-extrabold'>
           방문자 : {visitor}
-        </div>
+        </div> */}
       </div>
     </div >
 
@@ -213,7 +175,7 @@ function TopButton({ displayAfter, target }: any) {
     });
   };
   if (showButton) {
-    return <button className="fixed bottom-10 left-5 w-10 h-10 bg-green-300 ring-2" onClick={() => scrollToRef(target)}>TOP</button>;
+    return <button className="fixed bottom-10 right-5 w-10 h-10 bg-green-300 ring-2" onClick={() => scrollToRef(target)}>TOP</button>;
   }
   return <div />;
 }

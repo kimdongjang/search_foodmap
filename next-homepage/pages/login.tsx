@@ -28,7 +28,6 @@ const Login: NextPage = (props: any) => {
     
 
     useEffect(() => {
-        // console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
         try {
             setSitekey(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
         } catch (e) {
@@ -58,31 +57,6 @@ const Login: NextPage = (props: any) => {
         // Else reCAPTCHA was executed successfully so proceed with the 
         // alert
         alert(`Hey, ${email}`);
-
-        // async function login() {
-        //     try {
-        //         const { data, headers: returnedHeaders } = await axios.post(
-        //             'http://localhost:4949/auth/login', // Node.js backend path
-        //             {
-        //                 email, password
-        //             }, // Login body (email + password)
-        //             {
-        //                 headers: {
-        //                     'Content-Type': 'application/json',
-        //                 }
-        //             } // Headers from the Next.js Client
-        //         )
-        //         console.log(data)
-        //     }
-        //     catch (err) {
-        //         console.log(err)
-        //     }
-        // }
-        // login();
-
-        // Reset the reCAPTCHA so that it can be executed again if user 
-        // submits another email.
-        // recaptchaRef.current.reset();
     }
     return (
         <div >

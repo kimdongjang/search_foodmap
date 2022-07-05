@@ -4,6 +4,7 @@ type Props = {}
 
 export default function Footer({}: Props) {
   return (
-    <div>Footer</div>
+    <div className='w-full bg-gray-600 h-32'>
+      </div>
   )
 }
