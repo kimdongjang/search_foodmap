@@ -13,6 +13,7 @@ import Router from "next/router";
 import NProgress from "nprogress";
 import Link from 'next/link'
 import axios, { AxiosResponse } from 'axios'
+import { testFetch } from '../modules/reducers/apiReducer'
 
 // export async function getStaticProps() {
 //   // 외부 API Endpoint로 Call해서 Post로 정보를 가져온다.
@@ -52,7 +53,7 @@ const Index: NextPage = (props: any) => {
     "pd", process.env.PRODUCTION_DESTINATION_URL,
     "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
   const dispatch = useDispatch();
-  const data: Product = useSelector((state:any) => state.productReducer.data)
+  const data: Product = useSelector((state:any) => state.test)
   const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
   const tweet_eque_id: string = "1455546852137480196"
 
@@ -84,7 +85,19 @@ const Index: NextPage = (props: any) => {
     }
     get();
 
-    dispatch(productsActions.getProducts());
+    async function test() {
+      try {
+        const result = await dispatch(testFetch())
+        console.log(result)
+        // if (result) setVisitor(result.data)
+      }
+      catch (e) {
+
+      }
+    }
+    test();
+
+    // dispatch(productsActions.getProducts());
 
     
     return () => {

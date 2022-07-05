@@ -4,6 +4,19 @@ import { Session } from "next-auth";
 // import { signIn, useSession } from "next-auth/react";
 import React, { FormEventHandler, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useDispatch } from "react-redux";
+import { login } from "../auth/thunk";
+
+
+interface LoginType {
+    email: string
+    password: string
+}
+
+const initialValues: LoginType = {
+    email: 'naru3644@gmail.com',
+    password: '12345678',
+  }
 
 const Login: NextPage = (props: any) => {
     const [email, setEmail] = useState<string>("naru3644@gmail.com");
@@ -11,9 +24,11 @@ const Login: NextPage = (props: any) => {
     const [sitekey, setSitekey] = useState<string>("");
     const recaptchaRef = useRef<any>();
 
+    const dispatch = useDispatch();
+    
 
     useEffect(() => {
-        console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
+        // console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
         try {
             setSitekey(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
         } catch (e) {
@@ -23,8 +38,16 @@ const Login: NextPage = (props: any) => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         console.log("submit")
+        console.log(event)
+
+        async function qwe(){
+            await dispatch(login(initialValues))
+        }
+        qwe()
+        
+
         event.preventDefault();
-        recaptchaRef.current.execute();
+        // recaptchaRef.current.execute();
     }
     const onReCAPTCHAChange = (captchaCode: string) => {
         // If the reCAPTCHA code is null or undefined indicating that
@@ -36,30 +59,30 @@ const Login: NextPage = (props: any) => {
         // alert
         alert(`Hey, ${email}`);
 
-        async function login() {
-            try {
-                const { data, headers: returnedHeaders } = await axios.post(
-                    'http://localhost:3001/auth/login', // Node.js backend path
-                    {
-                        email, password
-                    }, // Login body (email + password)
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    } // Headers from the Next.js Client
-                )
-                console.log(data)
-            }
-            catch (err) {
-                console.log(err)
-            }
-        }
-        login();
+        // async function login() {
+        //     try {
+        //         const { data, headers: returnedHeaders } = await axios.post(
+        //             'http://localhost:4949/auth/login', // Node.js backend path
+        //             {
+        //                 email, password
+        //             }, // Login body (email + password)
+        //             {
+        //                 headers: {
+        //                     'Content-Type': 'application/json',
+        //                 }
+        //             } // Headers from the Next.js Client
+        //         )
+        //         console.log(data)
+        //     }
+        //     catch (err) {
+        //         console.log(err)
+        //     }
+        // }
+        // login();
 
         // Reset the reCAPTCHA so that it can be executed again if user 
         // submits another email.
-        recaptchaRef.current.reset();
+        // recaptchaRef.current.reset();
     }
     return (
         <div >
@@ -70,7 +93,7 @@ const Login: NextPage = (props: any) => {
                         <ReCAPTCHA
                             ref={recaptchaRef}
                             sitekey={sitekey}
-                            size="invisible"                            
+                            size="normal"                            
                             onChange={onReCAPTCHAChange} />
                         <div className="mb-4">
                             <label className="block mb-1" >Email-Address</label>

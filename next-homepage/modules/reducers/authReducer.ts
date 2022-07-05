@@ -39,6 +39,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchUser.rejected, (state, action) => {
       // 1. Reset state with initial state + add error to state.
+      console.log("extra reducers")
       // thunkAPI.rejectWithValue를 통해 에러가 발생할 경우, 초기 상태로 돌리고 에러를 반환
       state = { ...internalInitialState, error: action.error }
       // 2. VERY IMPORTANT! Throw an error!

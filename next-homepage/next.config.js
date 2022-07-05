@@ -44,11 +44,11 @@ module.exports = (phase, { defaultConfig }) => {
     return [
       {
         source: '/redis/:path*',
-        destination: "http://172.12.0.1:4949/redis/:path*",
+        destination: "http://127.0.0.1:4949/redis/:path*",
       },
       {
         source: '/auth/:path*',
-        destination: "http://172.12.0.1:4949/auth/:path*",
+        destination: "http://127.0.0.1:4949/auth/:path*",
       },
     ];
   }

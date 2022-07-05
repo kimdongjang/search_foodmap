@@ -46,6 +46,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
+      console.log("호출")
       const response = await axios.post<{ accessToken: string }>('api/login', credentials)
       const refetch = await axios.get<{ name: string }>('api/me', {
         headers: { Authorization: `Bearer ${response.data.accessToken}` },
