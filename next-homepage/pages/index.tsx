@@ -6,6 +6,7 @@ import { productsActions, ProductState } from '../modules/reducers/productReduce
 import axios, { AxiosResponse } from 'axios'
 import { testFetch } from '../modules/reducers/apiReducer'
 import { AiOutlineSearch } from "react-icons/ai"
+import styles from './index.module.css'
 
 export async function getServerSideProps(context: any) {
   const url: string = "/images/image1.jpg"
@@ -106,13 +107,13 @@ const Index: NextPage = (props: any) => {
   </div> */}
 
   return (
-    <div ref={topRef} className='relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 h-screen'>
+    <div ref={topRef} className={styles.indexMain}>
       <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
       <div>
         <form method="get" action="#" className="relative z-50">
           <button type="submit" id="searchsubmit" className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
             </svg>
           </button>
           <input type="text" name="s" id="s" className="w-full pl-10 pr-3 py-2 border border-transparent 
@@ -124,8 +125,8 @@ const Index: NextPage = (props: any) => {
           <ul className="flex flex-column">
             {recommandList.map((data, i) => {
               return(
-                <div className="inline p-4 flex flex-column">
-                  <li key={i} className="p-4">{data.name}</li>
+                <div className="inline p-4 flex flex-column" key={i}>
+                  <li className="p-4">{data.name}</li>
                   <div className='bg-gray-300 w-1 h-4 p-4'></div>
                 </div>
               )

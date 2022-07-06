@@ -65,6 +65,7 @@
     "@types/react-google-recaptcha": "^2.1.5",
     "@types/redux-logger": "^3.0.9",
     "@types/set-cookie-parser": "^2.4.2",
+    "@types/styled-components": "^5.1.25",
     "autoprefixer": "^10.4.7",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.18.0",

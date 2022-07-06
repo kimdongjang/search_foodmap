@@ -1,12 +1,12 @@
 import Head from "next/head"
-import Navbar from "./Navbar";
 import styles from '../styles/header.module.css'
+import Navbar from "./navbar"
 
 
 export default function Header() {
     return (<div className={styles.headerWrap}>
         <Head>
-            <title>Hello</title>
+            <title>웹 타이틀 이름</title>
         </Head>
         <Navbar></Navbar>
     </div>
