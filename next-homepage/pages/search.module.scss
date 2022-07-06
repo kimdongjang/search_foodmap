@@ -1,0 +1,13 @@
+.searchContainer{
+  display: flex;
+  height: 80vh;
+}
+.searchContainer__sidebar{
+  width: 30%;
+}
+.searchContainer__main{
+  /* Take the remaining width */
+  display: 1;
+  /* Make it scrollable */
+  overflow:auto;
+}

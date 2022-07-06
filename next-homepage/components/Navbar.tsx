@@ -3,21 +3,7 @@ import { useRouter } from 'next/router';
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai"
 import { useState } from 'react';
 import classNames from "classnames";
-import styled from "styled-components";
-import styles from './Navbar.module.css'
-
-const Desktop = styled.div`
-  @media (max-width: 1040px) {
-    display: none;
-  }
-`;
-const Mobile = styled.div`
-  display: none;
-  
-  @media (max-width: 1040px) {
-    display: block;
-  }
-`;
+import styles from './Navbar.module.scss'
 
 export default function Navbar() {
   const [menuToggle, setMenuToggle] = useState(false);
@@ -42,8 +28,8 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-          <div className="hidden md:flex items-center space-x-1">
-            <div className='py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300'>
+          <div className={styles.navbarSection__navigation__innerHidden}>
+            <div className={styles.navbarSection__navigation__innerButton}>
               <Link href="/login">
                 <a>로그인</a>
               </Link>

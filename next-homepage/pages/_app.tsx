@@ -7,7 +7,7 @@ import { createStore } from "redux";
 import Layout from "../components/Layout";
 import { makeStore, wrapper } from "../modules/store";
 
-import '../styles/globals.css'
+import '../styles/globals.scss'
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   // return <>

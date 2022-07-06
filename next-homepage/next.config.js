@@ -3,6 +3,7 @@ const { PHASE_PRODUCTION_BUILD, PHASE_DEVELOPMENT_SERVER } = require("next/const
 const withPlugins = require('next-compose-plugins');
 const nextEnv = require("next-env");
 const dotenvLoad = require("dotenv-load");
+const path = require('path')
 
 // /* production, develop */
 // const { PHASE_PRODUCTION_BUILD, PHASE_DEVELOPMENT_SERVER } = require("next/constants");
@@ -63,6 +64,11 @@ module.exports = (phase, { defaultConfig }) => {
     },
     images: {
       domains: ['images.dog.ceo'],
+    },
+    
+    // sass 사용 여부
+    sassOptions: {
+      includePaths: [path.join(__dirname, 'styles')],
     },
 
     reactStrictMode: true,

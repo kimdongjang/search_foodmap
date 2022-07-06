@@ -1,12 +1,15 @@
+@import 'styles/colors';
+
+
 .navbarSection{
-  background-color: #F3F4F6;
+  background-color: $background-color;
 }
 
 .navbarSection__navigation{  
   display: flex;
   justify-content: space-between;
   margin: auto 0;
-  padding: 0 4px;
+  padding: 0 4rem;
 }
 .navbarSection__navigation__inner{
   display: flex;
@@ -24,7 +27,24 @@
   justify-items: center;
   padding: 1.5rem 1rem;
   font-weight: bold;
-  color: #374151;
+  color: $dark-color;
+}
+.navbarSection__navigation__innerButton{  
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  margin: 0.5rem;  
+  background-color: $medium-color;
+  color: $white-color;
+  border-radius: 0.25rem;
+}
+
+.navbarSection__navigation__innerButton:hover{
+  margin: 0.5rem;
+  background-color: $bright-color;
+  color: $white-color;
+  border-radius: 0.25rem;
+  transition-duration: 300ms;
 }
 
 .navbarSection__auth{  

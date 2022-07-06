@@ -1,12 +1,13 @@
 import type { NextPage } from 'next'
-import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
+import { DOMAttributes, KeyboardEvent, KeyboardEventHandler, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Product } from '../interfaces/Product'
 import { productsActions, ProductState } from '../modules/reducers/productReducer'
 import axios, { AxiosResponse } from 'axios'
 import { testFetch } from '../modules/reducers/apiReducer'
-import { AiOutlineSearch } from "react-icons/ai"
-import styles from './index.module.css'
+import styles from './index.module.scss'
+import { useRouter } from 'next/router'
+import { clearTimeout } from 'timers'
 
 export async function getServerSideProps(context: any) {
   const url: string = "/images/image1.jpg"
@@ -23,7 +24,6 @@ export async function getServerSideProps(context: any) {
 
 
 const Index: NextPage = (props: any) => {
-  console.log(props);
   console.log(
     "d", process.env.DESTINATION_URL,
     "pd", process.env.NEXT_PUBLIC_DESTINATION_URL,
@@ -37,8 +37,12 @@ const Index: NextPage = (props: any) => {
   const tweet_eque_id: string = "1455546852137480196"
 
   const topRef = useRef(null); // top으로 올리는 버튼
+  const searchRef = useRef(null); // 검색 값 엘리먼트
+
+  const [keyWord, setKeyWord] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
   const displayAfter = 600;
+
 
   const [visitor, setVisitor] = useState<number>(0);
 
@@ -58,6 +62,10 @@ const Index: NextPage = (props: any) => {
     name: "test4",
     type: "test"
   }]
+  const keyWordList = [{
+    name: "test1",
+    type: "test"
+  }];
 
   useEffect(() => {
     async function get() {
@@ -106,28 +114,72 @@ const Index: NextPage = (props: any) => {
     <div className="twitter-timeline" data-height="50%"></div>
   </div> */}
 
+  // useEffect(() => {
+  //   const debounce = setTimeout(() => {
+  //     if(keyWord) updateData(keyWord);
+  //   },200);
+  //   return () => {
+  //     clearTimeout(debounce)
+  //   }
+  // },[keyWord])
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setKeyWord(value)
+    updateData(value)
+    
+  }
+
+  const updateData = async (value: string) => {
+
+  }
+
+
+  const router = useRouter();
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == 'Enter') {
+      e.preventDefault();
+      Search();
+    }
+  }
+  const Search = () => {
+    const input = searchRef.current.value;
+    alert(input)
+    router.push("/search");
+  }
+
   return (
     <div ref={topRef} className={styles.indexMain}>
-      <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
-      <div>
-        <form method="get" action="#" className="relative z-50">
-          <button type="submit" id="searchsubmit" className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <div className={styles.indexMain__search}>
+
+
+        <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
+        <form className={styles.indexMain__searchForm}>
+          <button type="submit" id="searchsubmit" className={styles.indexMain__searchForm__button}>
             <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path>
             </svg>
           </button>
-          <input type="text" name="s" id="s" className="w-full pl-10 pr-3 py-2 border border-transparent 
-            rounded-md leading-5 bg-red-600 text-gray-300 placeholder-gray-400
-            focus:outline-none focus:bg-white focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out" placeholder="Search">
+          <input type="text" name="s" id="s" className={styles.indexMain__searchForm__input}
+            placeholder="Search" onChange={onChange}
+            onKeyDown={onKeyDown} ref={searchRef}>
           </input>
+          { keyWord ? <div className={styles.indexMain__searchForm__keywordContainer}>
+            {keyWordList.map((value, idx) => (
+              <div key={idx}>
+                {value.name}
+              </div>
+            ))}
+          </div> : null}
+
         </form>
-        <div>
+        <div className={styles.indexMain__searchTag}>
           <ul className="flex flex-column">
             {recommandList.map((data, i) => {
-              return(
-                <div className="inline p-4 flex flex-column" key={i}>
-                  <li className="p-4">{data.name}</li>
-                  <div className='bg-gray-300 w-1 h-4 p-4'></div>
+              return (
+                <div className="inline flex flex-column" key={i}>
+                  <li className={styles.indexMain__searchTag__text}>{data.name}</li>
+                  <div className={styles.indexMain__searchTag__line}></div>
                 </div>
               )
             })}
