@@ -3,11 +3,13 @@
   height: 80vh;
 }
 .searchContainer__sidebar{
+  position: relative;
   width: 30%;
 }
 .searchContainer__main{
+  position: relative;
+  display: flex;
   /* Take the remaining width */
-  display: 1;
   /* Make it scrollable */
-  overflow:auto;
+  width: 70%;
 }

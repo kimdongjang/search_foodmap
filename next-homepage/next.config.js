@@ -61,6 +61,9 @@ module.exports = (phase, { defaultConfig }) => {
         if (isStaging) return 'http://127.0.0.1:4949/'
         return 'http://localhost:4949/'
       })(),
+      NEXT_PUBLIC_KAKAOMAP_APPKEY: (() =>{
+        if(isDev) return "d9a3db1e42a00573356be3ef55e95c9e"
+      })()
     },
     images: {
       domains: ['images.dog.ceo'],

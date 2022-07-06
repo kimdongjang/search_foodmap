@@ -9,6 +9,12 @@ import { makeStore, wrapper } from "../modules/store";
 
 import '../styles/globals.scss'
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   // return <>
   //   {/* <Provider store={store}> */}
@@ -19,14 +25,14 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   //   </SessionProvider>
   //   {/* </Provider> */}
   // </>
-  return(
-  // <Provider store={makeStore()}>
-      <SessionProvider >
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+  return (
+    // <Provider store={makeStore()}>
+    <SessionProvider >
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </SessionProvider>
-  ///* </Provider> */
+    ///* </Provider> */
   )
 };
 
