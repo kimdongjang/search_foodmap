@@ -7,7 +7,7 @@ import { createStore } from "redux";
 import Layout from "../components/Layout";
 import { makeStore, wrapper } from "../modules/store";
 
-import '../styles/globals.scss'
+import "../styles/globals.scss"
 
 declare global {
   interface Window {
