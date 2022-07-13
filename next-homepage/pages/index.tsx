@@ -71,7 +71,7 @@ const Index: NextPage = (props: any) => {
     async function get() {
       try {
         const result = await axios.post("/redis/visit");
-        console.log(result.data)
+
         if (result) setVisitor(result.data)
       }
       catch (e) {
@@ -83,7 +83,6 @@ const Index: NextPage = (props: any) => {
     async function test() {
       try {
         const result = await dispatch(testFetch())
-        console.log(result)
       }
       catch (e) {
 
@@ -127,7 +126,7 @@ const Index: NextPage = (props: any) => {
     const { name, value } = e.target;
     setKeyWord(value)
     updateData(value)
-    
+
   }
 
   const updateData = async (value: string) => {
@@ -142,9 +141,12 @@ const Index: NextPage = (props: any) => {
       Search();
     }
   }
+  /**
+   * search 화면으로 이동
+   */
   const Search = () => {
     const input = searchRef.current.value;
-    alert(input)
+
     router.push("/search");
   }
 
@@ -164,7 +166,7 @@ const Index: NextPage = (props: any) => {
             placeholder="Search" onChange={onChange}
             onKeyDown={onKeyDown} ref={searchRef}>
           </input>
-          { keyWord ? <div className={styles.indexMain__searchForm__keywordContainer}>
+          {keyWord ? <div className={styles.indexMain__searchForm__keywordContainer}>
             {keyWordList.map((value, idx) => (
               <div key={idx}>
                 {value.name}
