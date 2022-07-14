@@ -51,6 +51,10 @@ module.exports = (phase, { defaultConfig }) => {
         source: '/auth/:path*',
         destination: "http://127.0.0.1:4949/auth/:path*",
       },
+      {
+        source: '/shop/:path*',
+        destination: "http://127.0.0.1:4949/shop/:path*",
+      },
     ];
   }
   const nextConfig = {    

@@ -39,7 +39,7 @@ const Index: NextPage = (props: any) => {
   const topRef = useRef(null); // top으로 올리는 버튼
   const searchRef = useRef(null); // 검색 값 엘리먼트
 
-  const [keyWord, setKeyWord] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
   const displayAfter = 600;
 
@@ -124,7 +124,7 @@ const Index: NextPage = (props: any) => {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setKeyWord(value)
+    setKeyword(value)
     updateData(value)
 
   }
@@ -147,7 +147,12 @@ const Index: NextPage = (props: any) => {
   const Search = () => {
     const input = searchRef.current.value;
 
-    router.push("/search");
+    router.push({
+      pathname: "/search",
+       query: {
+        keyword: input
+      }
+    });
   }
 
   return (
@@ -166,7 +171,7 @@ const Index: NextPage = (props: any) => {
             placeholder="Search" onChange={onChange}
             onKeyDown={onKeyDown} ref={searchRef}>
           </input>
-          {keyWord ? <div className={styles.indexMain__searchForm__keywordContainer}>
+          {keyword ? <div className={styles.indexMain__searchForm__keywordContainer}>
             {keyWordList.map((value, idx) => (
               <div key={idx}>
                 {value.name}
