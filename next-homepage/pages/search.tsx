@@ -6,6 +6,7 @@ import Map from "../components/kakaoMap/Map";
 import { MapProps, MapPropsList } from "../components/kakaoMap/MapProps";
 import { Shop } from "../types/shop";
 import styles from './search.module.scss'
+import {BsFillFileArrowUpFill} from 'react-icons/Bs'
 
 
 interface locationType {
@@ -79,6 +80,13 @@ const Search: NextPage = (props: any) => {
   useEffect(() => {
     if (!router.isReady) return;
     // router 쿼리가 초기화가 되었을 경우 location 초기화
+    if (!isMobile()) {
+
+    }
+    else {
+
+    }
+
     getLocation((position: any) => {
       setLocation(
         {
@@ -95,17 +103,17 @@ const Search: NextPage = (props: any) => {
   useEffect(() => {
     if (location.coordinates.lat === 0 || location.coordinates.lng === 0) return;
     searchShopList();
-    if (!isMobile()) {
-
-    }
-    else {
-
-    }
+    
   }, [location])
 
 
   return (
     <div className={styles.searchContainer}>
+      {location.coordinates.lat === 0 ? 
+      <div className={styles.geoApply}>
+        <BsFillFileArrowUpFill className={styles.geoApplyIcon}/>
+        <p className={styles.geoApplyText}>위치 정보를 확인할 수 있게 권한을 주세요!</p>
+      </div> : null}      
       <main className={styles.searchContainer__main}>
         <Map latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />
       </main>

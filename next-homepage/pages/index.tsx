@@ -163,7 +163,7 @@ const Index: NextPage = (props: any) => {
         <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
         <form className={styles.indexMain__searchForm}>
           <button type="submit" id="searchsubmit" className={styles.indexMain__searchForm__button}>
-            <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" onClick={Search}>
               <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path>
             </svg>
           </button>

@@ -25,12 +25,30 @@ export default function Map({ latitude, longitude, markerList=[] }: any) {
                 const map = new window.kakao.maps.Map(container, options);
 
                 markerList.map((value: Shop) => {
-                    console.log(value)
+                    
+                    let infowindow = new window.kakao.maps.InfoWindow({zIndex:1});
                     const markerPosition = new window.kakao.maps.LatLng(value.lat, value.lng);
                     const marker = new window.kakao.maps.Marker({
                         position: markerPosition,
                     });
                     marker.setMap(map);
+                    
+                    const categories = value.categoryName.split(" > ");                    
+                    
+                    // 마커에 클릭이벤트를 등록합니다
+                    window.kakao.maps.event.addListener(marker, 'click', function() {
+                        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                        let content  = '<div style=' +
+                        '"font-size:14px; margin:1rem; margin-bottom:1.5rem; width:100%">' +
+                        '<h1>' + value.name + '</h1>' + 
+                        '<p style="color:brown>' + categories[categories.length] + '</p>' + 
+                        '<a style="color:cadetblue" href="tel:'+ value.callNumber+ '">' + value.callNumber + '</a>' +
+                        '<p>' + value.addressName + '</p>' +
+                        '<a style="color:blue" href="'+ value.homepageLink+ '">홈페이지</a>' +
+                        '</div>'
+                        infowindow.setContent(content);
+                        infowindow.open(map, marker);
+                    });
                 })
                 
             });
