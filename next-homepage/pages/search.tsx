@@ -7,6 +7,7 @@ import { MapProps, MapPropsList } from "../components/kakaoMap/MapProps";
 import { Shop } from "../types/shop";
 import styles from './search.module.scss'
 import {BsFillFileArrowUpFill} from 'react-icons/bs'
+import FloatMarkerList from "../components/search/FloatMarkerList";
 
 
 interface locationType {
@@ -114,13 +115,18 @@ const Search: NextPage = (props: any) => {
         <BsFillFileArrowUpFill className={styles.geoApplyIcon}/>
         <p className={styles.geoApplyText}>위치 정보를 확인할 수 있게 권한을 주세요!</p>
       </div> : null}      
-      <main className={styles.searchContainer__main}>
-        <Map latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />
-      </main>
+      <div className={styles.searchContainer__main}>
+        <Map latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />        
+      </div>
+      <div className={styles.searchContainer__sidebar}>
+        <FloatMarkerList markerList={markerList}/>
+      </div>
 
-      <aside className={styles.searchContainer__sidebar}>
+
+
+      {/* <aside className={styles.searchContainer__sidebar}>
         ...
-      </aside>
+      </aside> */}
     </div>
   )
 }

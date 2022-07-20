@@ -49,14 +49,17 @@
 }
 
 .searchContainer__sidebar {
-  position: relative;
-  width: 30%;
+  position: absolute;
+  // z-index: -1;
+  width: 100px;
+  height: 100px;
+  // width: 30%;
 }
 
 .searchContainer__main {
   position: relative;
-  display: flex;
+  // display: flex;
   /* Take the remaining width */
   /* Make it scrollable */
-  width: 70%;
+  width: 100%;
 }
