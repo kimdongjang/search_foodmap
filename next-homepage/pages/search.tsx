@@ -6,7 +6,7 @@ import Map from "../components/kakaoMap/Map";
 import { MapProps, MapPropsList } from "../components/kakaoMap/MapProps";
 import { Shop } from "../types/shop";
 import styles from './search.module.scss'
-import {BsFillFileArrowUpFill} from 'react-icons/Bs'
+import {BsFillFileArrowUpFill} from 'react-icons/bs'
 
 
 interface locationType {
