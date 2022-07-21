@@ -40,8 +40,7 @@ export default function Map({ latitude, longitude, markerList=[] }: any) {
                         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
                         let content  = '<div style=' +
                         '               "font-size:14px; margin:1rem; margin-bottom:1.5rem; width:100%">' +
-                        '                   <h1>' + value.name + '</h1>' + 
-                        '                   <p style="color:brown>' + categories[categories.length] + '</p>' + 
+                        '                   <h1>' + value.name + '</h1>' +                         
                         '                   <a style="color:cadetblue" href="tel:'+ value.callNumber+ '">' + value.callNumber + '</a>' +
                         '                   <p>' + value.addressName + '</p>' +
                         '                   <a style="color:blue" href="'+ value.homepageLink+ '">홈페이지</a>' +
