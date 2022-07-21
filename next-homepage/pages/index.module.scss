@@ -29,8 +29,24 @@
   margin-left: 12rem;
   display: flex;
   align-items: center;
-  pointer-events:none;  
+  pointer-events:none; 
+  width: 20px;
+  height: 20px;
 }
+.indexMain__searchButton{
+  position: absolute;
+  margin-left: 18rem;
+  margin-bottom: 5.5rem;
+  display: flex;
+  align-items: center;
+
+  border-width: 0.5rem;
+  border-color: transparent;
+  border-radius: 0.5rem;
+  background-color: $white-color;
+}
+
+
 .indexMain__searchForm__input{
   border-width: 0.5rem;
   border-color: transparent;
