@@ -52,15 +52,16 @@
   padding: 0 4px
 }
 
-@media screen and (max-width: 768px) {
-  .navbarSection__navigation{  
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-  }
-  .styles.navbarSection__navigation__innerHidden{
-    display:none;
-  }
-}
+// width가 768보다 작아지는 순간부터 적용
+// @media all and (max-width: 768px) {
+//   .navbarSection__navigation{  
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+//     width: 100%;
+//     height: 100%;
+//   }
+//   .styles.navbarSection__navigation__innerHidden{
+//     display:none;
+//   }
+// }
