@@ -45,9 +45,9 @@ const Search: NextPage = (props: any) => {
         keyword: queries.keyword,
         lat: location.coordinates.lat,
         lng: location.coordinates.lng,
-        radius: 20000,
+        radius: 2,
       }
-      let list = await axios.get(process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL + "shop/search/list", { params: query })      
+      let list = await axios.get(process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL + "api/shop/search/list", { params: query })      
       setMarkerList(list.data);
 
     }

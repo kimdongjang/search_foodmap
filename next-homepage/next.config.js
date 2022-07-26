@@ -32,6 +32,7 @@ module.exports = (phase, { defaultConfig }) => {
   // when `next build` or `npm run build` is used
   const isStaging =
     phase === PHASE_PRODUCTION_BUILD && process.env.STAGING === '1'
+ 
 
   console.log(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging}`)
 
@@ -42,27 +43,30 @@ module.exports = (phase, { defaultConfig }) => {
    * @returns 
    */   
   const rewrites = () => {
+    var backendUrl = 'http://localhost:4949/';
+    if (isDev) backendUrl = process.env.DEVELOPMENT_DESTINATION_URL;
+    if (isProd) backendUrl = process.env.PRODUCTION_DESTINATION_URL;
     return [
       {
         source: '/redis/:path*',
-        destination: "http://127.0.0.1:4949/redis/:path*",
+        destination: backendUrl + "/redis/:path*",
       },
       {
         source: '/auth/:path*',
-        destination: "http://127.0.0.1:4949/auth/:path*",
+        destination: backendUrl + "/auth/:path*",
       },
       {
-        source: '/shop/:path*',
-        destination: "http://127.0.0.1:4949/shop/:path*",
+        source: '/api/:path*',
+        destination: backendUrl + "/api/:path*",
       },
     ];
   }
   const nextConfig = {    
     env:{
       SERVER_DOMAIN: (() => {
-        if (isDev) return 'http://127.0.0.1:4949/'
-        if (isProd) return 'http://127.0.0.1:4949/'      
-        if (isStaging) return 'http://127.0.0.1:4949/'
+        if (isDev) return process.env.DEVELOPMENT_DESTINATION_URL
+        if (isProd) return process.env.PRODUCTION_DESTINATION_URL
+        if (isStaging) return 'http://localhost:4949/'
         return 'http://localhost:4949/'
       })(),
       NEXT_PUBLIC_KAKAOMAP_APPKEY: (() =>{

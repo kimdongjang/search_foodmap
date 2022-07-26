@@ -6,7 +6,7 @@ import Navbar from "./Navbar"
 export default function Header() {
     return (<div className={styles.headerWrap}>
         <Head>
-            <title>웹 타이틀 이름</title>
+            <title>주변 푸드 찾기</title>
         </Head>
         <Navbar></Navbar>
     </div>
