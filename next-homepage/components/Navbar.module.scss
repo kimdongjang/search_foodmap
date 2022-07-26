@@ -31,9 +31,9 @@
 }
 .navbarSection__navigation__innerButton{  
   display: flex;
-  justify-content: center;
-  justify-items: center;
-  margin: 0.5rem;  
+  align-items: center;
+  margin: 0.5rem 0rem;
+  padding: 1rem 0.5rem;
   background-color: $medium-color;
   color: $white-color;
   border-radius: 0.25rem;

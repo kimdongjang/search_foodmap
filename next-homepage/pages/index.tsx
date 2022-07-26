@@ -14,6 +14,18 @@ export async function getServerSideProps(context: any) {
   console.log(process.env.SERVER_DOMAIN)
 
 
+  // const cookie = context.req ? context.req.headers.cookie : "";
+
+  // const state = context.store.getState(); // state 불러오기
+  const cookie = context.isServer ? context.req.headers.cookie : '';
+  // SSR 환경일 때만 서버사이드에서 쿠키를 넣어주고, 클라이언트 환경일 때는 넣지 않음
+  // 클라이언트 환경 - ctx.req.headers.cookie = undefined
+  if (context.isServer && cookie) {
+    // 서버 환경일 때만 쿠키를 심어줌. 클라이언트 환경일 때는 브라우저가 자동으로 쿠키를 넣어줌
+
+  }
+
+
   return {
     props: {
       url: url
@@ -37,9 +49,10 @@ const Index: NextPage = (props: any) => {
   const tweet_eque_id: string = "1455546852137480196"
 
   const topRef = useRef(null); // top으로 올리는 버튼
-  const searchRef = useRef(null); // 검색 값 엘리먼트
+  const searchRef = useRef<HTMLInputElement>(null); // 검색 값 엘리먼트
 
   const [keyword, setKeyword] = useState("");
+  const [isRecent, setIsRecent] = useState<boolean>(false);
   const [showTopButton, setShowTopButton] = useState(false);
   const displayAfter = 600;
 
@@ -62,11 +75,22 @@ const Index: NextPage = (props: any) => {
     name: "test4",
     type: "test"
   }]
-  const keyWordList = [{
-    name: "test1",
-    type: "test"
-  }];
+  const [searchHistoryList, setSearchHistoryList] = useState<string[]>([]);
 
+  /**
+   * searchHistory List init in cookie
+   */
+  useEffect(() => {
+    const list:string[] = JSON.parse(localStorage.getItem('searchHistory'));    
+    if(list=== null || list.length === undefined) return;    
+    else {     
+      setSearchHistoryList(list)
+    }    
+  }, []);
+
+  /**
+   * redis init
+   */
   useEffect(() => {
     async function get() {
       try {
@@ -79,16 +103,6 @@ const Index: NextPage = (props: any) => {
       }
     }
     // get();
-
-    async function test() {
-      try {
-        const result = await dispatch(testFetch())
-      }
-      catch (e) {
-
-      }
-    }
-    test();
   }, []);
 
   const pushEvent = useCallback(() => {
@@ -126,7 +140,6 @@ const Index: NextPage = (props: any) => {
     const { name, value } = e.target;
     setKeyword(value)
     updateData(value)
-
   }
 
   const updateData = async (value: string) => {
@@ -146,11 +159,25 @@ const Index: NextPage = (props: any) => {
    */
   const Search = () => {
     const input = searchRef.current.value;
-
+    searchProcess(input);
+  }
+  const searchProcess = (text:string) =>{   
+    var isOverlap = false;
+    searchHistoryList.filter((value) => {
+      if(value === text)
+      {
+        isOverlap = true;
+      }
+    })        
+    if(!isOverlap) 
+    {
+      searchHistoryList.push(text);
+      localStorage.setItem('searchHistory', JSON.stringify(searchHistoryList));
+    }
     router.push({
       pathname: "/search",
-       query: {
-        keyword: input
+      query: {
+        keyword: text
       }
     });
   }
@@ -168,15 +195,17 @@ const Index: NextPage = (props: any) => {
             </button>
           </div>
           <input type="text" name="s" id="s" className={styles.indexMain__searchForm__input}
-            placeholder="Search" onChange={onChange}
+            placeholder="Search" onChange={onChange} onFocus={()=>{setIsRecent(true)}} onBlur={()=>{setIsRecent(false)}}
             onKeyDown={onKeyDown} ref={searchRef}>
           </input>
-          {keyword ? <div className={styles.indexMain__searchForm__keywordContainer}>
-            {keyWordList.map((value, idx) => (
-              <div key={idx}>
-                {value.name}
-              </div>
-            ))}
+          {isRecent ? <div className={styles.indexMain__searchForm__keywordContainer}>
+            {searchHistoryList.length && searchHistoryList.length > 0
+              ? searchHistoryList.map((value, idx) => (
+                <div key={idx} className={styles.indexMain__searchForm__keywordInner}
+                  onMouseDown={()=>{ searchProcess(value)}}>
+                  {value}
+                </div>
+              )) : <div></div>}
           </div> : null}
         </form>
         <div className={styles.indexMain__searchButton}>

@@ -69,6 +69,12 @@
   top: 45px;
   padding: 15px;
 }
+.indexMain__searchForm__keywordInner{
+
+}
+.indexMain__searchForm__keywordInner:hover{
+  background-color: $gray-color;
+}
 
 .indexMain__searchTag{
   position: relative;

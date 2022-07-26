@@ -36,7 +36,7 @@ const Login: NextPage = (props: any) => {
     }, [])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        console.log("submit")
+        alert("submit")
         console.log(event)
 
         async function qwe(){
@@ -56,6 +56,7 @@ const Login: NextPage = (props: any) => {
         }
         // Else reCAPTCHA was executed successfully so proceed with the 
         // alert
+        // 캡챠에 성공했을 경우
         alert(`Hey, ${email}`);
     }
     return (
