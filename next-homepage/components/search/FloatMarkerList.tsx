@@ -10,10 +10,10 @@ export default function FloatMarkerList(prop: any) {
         {prop.markerList.length && prop.markerList.length > 0
           ? prop.markerList.map((data: Shop) => {            
             return(
-              <div>
-                <div>{data.name}</div>
-                <div>{data.callNumber}</div>
-                <div>{data.addressName}</div>
+              <div className={styles.markerList__header}>
+                <div className={styles.markerList__name}>{data.name}</div>
+                <div className={styles.markerList__callNumber}>{data.callNumber}</div>
+                <div className={styles.markerList__address}>{data.addressName}</div>
               </div>
             )
           })

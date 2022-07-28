@@ -1,3 +1,29 @@
 .listContainer{
-  display: flex;
+// display: flex;
+// flex: 0 0 400px;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+.markerList__header{
+  box-shadow: 0 0.8em 1em -0.5em rgba(0, 27, 69, 0.15), 0 1px 3px -2px rgba(0, 27, 69, 0.15);
+  margin: 1.3rem;
+  border:0;
+}
+.markerList__name{
+  border-bottom: 0;
+  background-image: linear-gradient(150deg, #428cd4, #ff9cda);
+  color: white;
+}
+.markerList__callNumber{
+
+}
+.markerList__address{
+  background-color: rgba(0, 88, 222, 0.05);
+  color: rgba(0, 0, 0, 0.5);
+  border-top: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }

@@ -49,17 +49,18 @@
 }
 
 .searchContainer__sidebar {
-  position: absolute;
-  // z-index: -1;
-  width: 100px;
-  height: 100px;
+  display: flex;
+  flex: 0 0 20%;
   // width: 30%;
 }
 
-.searchContainer__main {
-  position: relative;
+.searchContainer__map {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+
   // display: flex;
   /* Take the remaining width */
   /* Make it scrollable */
-  width: 100%;
+  // width: 100%;
 }

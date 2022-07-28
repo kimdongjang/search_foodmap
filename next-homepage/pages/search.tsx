@@ -115,7 +115,7 @@ const Search: NextPage = (props: any) => {
         <BsFillFileArrowUpFill className={styles.geoApplyIcon}/>
         <p className={styles.geoApplyText}>위치 정보를 확인할 수 있게 권한을 주세요!</p>
       </div> : null}      
-      <div className={styles.searchContainer__main}>
+      <div className={styles.searchContainer__map}>
         <Map latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />        
       </div>
       <div className={styles.searchContainer__sidebar}>
