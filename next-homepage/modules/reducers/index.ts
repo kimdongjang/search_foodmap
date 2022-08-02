@@ -6,10 +6,12 @@ import productsSlice, { ProductApi } from './productReducer';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas';
+import searchItemSlice from './searchItemReducer';
 
 const rootReducer = combineReducers({
   authReducer: authSlice.reducer,
-  productReducer: productsSlice.reducer
+  productReducer: productsSlice.reducer,
+  searchItemReducer: searchItemSlice.reducer
 })
 
 export default rootReducer;

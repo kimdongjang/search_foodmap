@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
+import Script from "next/script";
 import React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
@@ -9,11 +10,11 @@ import { makeStore, wrapper } from "../modules/store";
 
 import "../styles/globals.scss"
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     kakao: any;
+//   }
+// }
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   // return <>
@@ -29,7 +30,7 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
     // <Provider store={makeStore()}>
     <SessionProvider >
       <Layout>
-        <Component {...pageProps} />
+        <Component {...pageProps} />        
       </Layout>
     </SessionProvider>
     ///* </Provider> */

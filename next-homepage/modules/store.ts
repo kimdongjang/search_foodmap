@@ -36,8 +36,8 @@ export const makeStore = () => {
   const sagaMiddleware = createSagaMiddleware();
   // const logger = createLogger();
  
-  // const store = configureStore({reducer: combinedReducers, middleware:[sagaMiddleware, logger]});
-  const store = createStore(rootReducer, bindMiddleware([sagaMiddleware]));
+  const store = configureStore({reducer: rootReducer, middleware:[sagaMiddleware]});
+  // const store = createStore(rootReducer, bindMiddleware([sagaMiddleware]));
   // const store = configureStore<OurStore>({
   //   reducer: rootReducer,
   //   middleware: [sagaMiddleware]
