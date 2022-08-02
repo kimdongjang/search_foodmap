@@ -18,6 +18,11 @@ export default function Navbar() {
                 <a className={styles.navbarSection__navigation__innerContent}>Home</a>
               </Link>
             </div>
+            <div>
+              <Link href="/search">
+                <a className={styles.navbarSection__navigation__innerContent}>Search</a>
+              </Link>
+            </div>
             {/* sm크기 일경우엔 안보이고, md크기 부터는 display:flex 적용 */}
             <div className={styles.navbarSection__navigation__innerHidden}>
               <Link href="/contact">
