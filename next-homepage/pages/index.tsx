@@ -1,11 +1,14 @@
 import axios from "axios";
-import { NextPage } from "next";
+import cookies from 'next-cookies'
+
+import styles from './index.module.scss'
+
+import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import KakaoMap from "../components/kakaoMap/KakaoMap";
 import { MapProps, MapPropsList } from "../components/kakaoMap/MapProps";
 import { Shop } from "../types/shop";
-import styles from './index.module.scss'
 import { BsFillFileArrowUpFill } from 'react-icons/bs'
 import FloatMarkerList from "../components/search/FloatMarkerList";
 
@@ -16,6 +19,11 @@ interface locationType {
   error?: { code: number; message: string };
 }
 
+Index.getInitialProps = (ctx: NextPageContext) => {
+  const { token } = cookies(ctx);
+  return { token }
+}
+// https://codesandbox.io/s/oxy3e?file=/pages/api/profile.js
 
 const Index: NextPage = (props: any) => {
   /**
