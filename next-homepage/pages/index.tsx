@@ -1,5 +1,6 @@
 import axios from "axios";
-import cookies from 'next-cookies'
+import nextCookie from 'next-cookies'
+import Router from "next/router";
 
 import styles from './index.module.scss'
 
@@ -18,12 +19,6 @@ interface locationType {
   coordinates?: { lat: number; lng: number };
   error?: { code: number; message: string };
 }
-
-Index.getInitialProps = (ctx: NextPageContext) => {
-  const { token } = cookies(ctx);
-  return { token }
-}
-// https://codesandbox.io/s/oxy3e?file=/pages/api/profile.js
 
 const Index: NextPage = (props: any) => {
   /**
@@ -137,5 +132,41 @@ const Index: NextPage = (props: any) => {
     </div>
   )
 }
+
+Index.getInitialProps = async (ctx: NextPageContext) => {
+  const { token } = nextCookie(ctx);
+
+
+  const redirectOnError = () =>
+    typeof window !== "undefined"
+      ? Router.push("/login")
+      : ctx.res.writeHead(302, { Location: "/login" }).end();
+
+  // apiUrl = login url
+  try {
+    const response = await fetch(apiUrl, {
+      credentials: "include",
+      headers: {
+        Authorization: JSON.stringify({ token })
+      }
+    });
+
+    if (response.ok) {
+      const js = await response.json();
+      console.log("js", js);
+      return js;
+    } else {
+      // https://github.com/developit/unfetch#caveats
+      return await redirectOnError();
+    }
+  } catch (error) {
+    // Implementation or Network error
+    return redirectOnError();
+  }
+
+
+  return { token }
+}
+// https://codesandbox.io/s/oxy3e?file=/pages/api/profile.js
 
 export default Index;
