@@ -142,7 +142,7 @@ Index.getInitialProps = async (ctx: NextPageContext) => {
       ? Router.push("/login")
       : ctx.res.writeHead(302, { Location: "/login" }).end();
 
-  // apiUrl = login url
+  const apiUrl = process.env.SERVER_DOMAIN+"/auth/login"
   try {
     const response = await fetch(apiUrl, {
       credentials: "include",

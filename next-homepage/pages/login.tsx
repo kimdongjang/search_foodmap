@@ -59,6 +59,36 @@ const Login: NextPage = (props: any) => {
         // 캡챠에 성공했을 경우
         alert(`Hey, ${email}`);
     }
+
+    
+    async function doLogin(event:React.FormEvent<HTMLFormElement>) {
+        const url = '/api/login'
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email:email, password:password }),
+            })
+            if (response.status === 200) {
+                const { token } = await response.json()
+                await login({ token })
+            } else {
+                console.log('Login failed.')
+                // https://github.com/developit/unfetch#caveats
+                let error = new Error(response.statusText)
+                throw error
+            }
+        } catch (error) {
+            console.error(
+                'You have an error in your code or there are Network issues.',
+                error
+            )        
+        }
+    }
+
+    
     return (
         <div >
             <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 mx-50">
