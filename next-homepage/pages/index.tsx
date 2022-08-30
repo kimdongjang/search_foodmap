@@ -135,6 +135,7 @@ const Index: NextPage = (props: any) => {
 
 Index.getInitialProps = async (ctx: NextPageContext) => {
   const { token } = nextCookie(ctx);
+  console.log(token)
 
 
   const redirectOnError = () =>
@@ -142,7 +143,7 @@ Index.getInitialProps = async (ctx: NextPageContext) => {
       ? Router.push("/login")
       : ctx.res.writeHead(302, { Location: "/login" }).end();
 
-  const apiUrl = process.env.SERVER_DOMAIN+"/auth/login"
+  const apiUrl = process.env.SERVER_DOMAIN + "/auth/login"
   try {
     const response = await fetch(apiUrl, {
       credentials: "include",

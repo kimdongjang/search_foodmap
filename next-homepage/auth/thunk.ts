@@ -2,6 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { stringify } from "querystring";
 
+export enum AuthStates {
+  IDLE = 'idle',
+  LOADING = 'loading',
+}
+
 /**
  * createAsyncThunk는 createAsyncThunk와 createSlice를 사용하여
  *  Redux Toolkit만으로 비동기 처리를 쉽게 할 수 있으며, redux-saga에서만 사용할 수 있던 기능
@@ -12,11 +17,11 @@ import { stringify } from "querystring";
  * try-catch를 이용해 rejectedValue()로 createAsyncThunk 내부에서 오류처리
  */
 export const fetchUser = createAsyncThunk('auth/me', async (_, thunkAPI) => {
-  try{
-    const response = await axios.get<{name: string; email: string; type: string}>('api/me');
+  try {
+    const response = await axios.get<{ name: string; email: string; type: string }>('api/me');
     return response.data;
   }
-  catch (error){
+  catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
 })
@@ -26,17 +31,17 @@ export const fetchUser = createAsyncThunk('auth/me', async (_, thunkAPI) => {
  * 파라미터 2: 프로미스를 반환하는 비동기 함수
  */
 export const register = createAsyncThunk('auth/register',
-  async (credentials: {email: string, password:string, name:string }, thunkAPI) => {
-    try{
-      const response = await axios.post<{accessToken:string}>('api/register', credentials);
-      const refetch = await axios.get<{name:string}>('api/me', {
-        headers : { Authorization: `Bearer ${response.data.accessToken}`},
+  async (credentials: { email: string, password: string, name: string }, thunkAPI) => {
+    try {
+      const response = await axios.post<{ accessToken: string }>('api/register', credentials);
+      const refetch = await axios.get<{ name: string }>('api/me', {
+        headers: { Authorization: `Bearer ${response.data.accessToken}` },
       })
-      return { accessToken: response.data.accessToken, me: { name:refetch.data.name}}
+      return { accessToken: response.data.accessToken, me: { name: refetch.data.name } }
 
 
     }
-    catch(error){
+    catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }

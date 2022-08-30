@@ -16,7 +16,7 @@ interface LoginType {
 const initialValues: LoginType = {
     email: 'naru3644@gmail.com',
     password: '12345678',
-  }
+}
 
 const Login: NextPage = (props: any) => {
     const [email, setEmail] = useState<string>("naru3644@gmail.com");
@@ -25,7 +25,7 @@ const Login: NextPage = (props: any) => {
     const recaptchaRef = useRef<any>();
 
     const dispatch = useDispatch();
-    
+
 
     useEffect(() => {
         try {
@@ -35,18 +35,41 @@ const Login: NextPage = (props: any) => {
         }
     }, [])
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        alert("submit")
-        console.log(event)
-
-        async function qwe(){
-            await dispatch(login(initialValues))
-        }
-        qwe()
-        
-
-        event.preventDefault();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         // recaptchaRef.current.execute();
+
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: password }),
+            })
+            if (response.status === 200) {
+                const { token } = await response.json()
+                // 성공할 경우 실제 로그인 처리
+                // await login({ token })
+            } else {
+                console.log('Login failed.')
+                // https://github.com/developit/unfetch#caveats
+                let error = new Error(response.statusText)
+                error.message = response as string | any;
+                console.log(error.message)
+                throw error
+            }
+        } catch (error) {
+            console.error(
+                'You have an error in your code or there are Network issues.',
+                error
+            )
+
+            // const { response } = error
+            // setUserData(
+            //     Object.assign({}, userData, {
+            //         error: response ? response.statusText : error.message,
+            //     })
+            // )
+        }
     }
     const onReCAPTCHAChange = (captchaCode: string) => {
         // If the reCAPTCHA code is null or undefined indicating that
@@ -60,35 +83,6 @@ const Login: NextPage = (props: any) => {
         alert(`Hey, ${email}`);
     }
 
-    
-    async function doLogin(event:React.FormEvent<HTMLFormElement>) {
-        const url = '/api/login'
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email:email, password:password }),
-            })
-            if (response.status === 200) {
-                const { token } = await response.json()
-                await login({ token })
-            } else {
-                console.log('Login failed.')
-                // https://github.com/developit/unfetch#caveats
-                let error = new Error(response.statusText)
-                throw error
-            }
-        } catch (error) {
-            console.error(
-                'You have an error in your code or there are Network issues.',
-                error
-            )        
-        }
-    }
-
-    
     return (
         <div >
             <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 mx-50">
@@ -98,7 +92,7 @@ const Login: NextPage = (props: any) => {
                         <ReCAPTCHA
                             ref={recaptchaRef}
                             sitekey={sitekey}
-                            size="normal"                            
+                            size="normal"
                             onChange={onReCAPTCHAChange} />
                         <div className="mb-4">
                             <label className="block mb-1" >Email-Address</label>
