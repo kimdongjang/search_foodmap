@@ -11,25 +11,25 @@ import rootReducer from "./reducers";
 
 
 // 미들웨어 끼리 묶음
-const bindMiddleware = (middlewares: Middleware[]): StoreEnhancer => {
-  const logger = createLogger();
+// const bindMiddleware = (middlewares: Middleware[]): StoreEnhancer => {
+//   const logger = createLogger();
 
-  // if (process.env.NODE_ENV !== "production") {
-  //   const { composeWithDevTools } = require("redux-devtools-extension");
-  //   return composeWithDevTools(
-  //     applyMiddleware(...middlewares),
-  //     applyMiddleware(logger)
-  //   );
-  // }
-  // return compose(applyMiddleware(...middlewares), applyMiddleware(logger));
+//   // if (process.env.NODE_ENV !== "production") {
+//   //   const { composeWithDevTools } = require("redux-devtools-extension");
+//   //   return composeWithDevTools(
+//   //     applyMiddleware(...middlewares),
+//   //     applyMiddleware(logger)
+//   //   );
+//   // }
+//   // return compose(applyMiddleware(...middlewares), applyMiddleware(logger));
 
-  const { composeWithDevTools } = require("redux-devtools-extension");
-  return composeWithDevTools(
-    applyMiddleware(...middlewares),
-    applyMiddleware(logger)
-  );
-  return compose(applyMiddleware(...middlewares), applyMiddleware(logger));
-};
+//   const { composeWithDevTools } = require("redux-devtools-extension");
+//   return composeWithDevTools(
+//     applyMiddleware(...middlewares),
+//     applyMiddleware(logger)
+//   );
+//   return compose(applyMiddleware(...middlewares), applyMiddleware(logger));
+// };
 
 // Next Redux Wrapper 리듀서와 rootSaga를 묶음
 export const makeStore = () => {

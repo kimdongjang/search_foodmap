@@ -2,6 +2,11 @@ import axios, { AxiosResponse } from "axios";
 import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { productsActions } from "../reducers/productReducer";
 
+/**
+ * saga는 안씀
+ * @returns 
+ */
+
 const CallApi = () => {
   return axios.get("https://dog.ceo/api/breeds/image/random")
 }

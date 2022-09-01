@@ -28,11 +28,13 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   // </>
   return (
     // <Provider store={makeStore()}>
-    <SessionProvider >
+    // <SessionProvider >
+    
+    <Provider store={makeStore()}>
       <Layout>
         <Component {...pageProps} />        
       </Layout>
-    </SessionProvider>
+    </Provider>
     ///* </Provider> */
   )
 };

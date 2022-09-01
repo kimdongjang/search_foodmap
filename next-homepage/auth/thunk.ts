@@ -47,8 +47,7 @@ export const register = createAsyncThunk('auth/register',
   }
 )
 
-export const login = createAsyncThunk(
-  'auth/login',
+export const login = createAsyncThunk('auth/login',
   async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
       console.log("호출")

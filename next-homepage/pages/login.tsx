@@ -1,11 +1,13 @@
 import axios from "axios";
 import { NextPage } from "next";
 import { Session } from "next-auth";
+import Email from "next-auth/providers/email";
 // import { signIn, useSession } from "next-auth/react";
 import React, { FormEventHandler, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch } from "react-redux";
 import { login } from "../auth/thunk";
+import { useRouter } from "next/router";
 
 
 interface LoginType {
@@ -23,6 +25,7 @@ const Login: NextPage = (props: any) => {
     const [password, setPassword] = useState<string>("12345678");
     const [sitekey, setSitekey] = useState<string>("");
     const recaptchaRef = useRef<any>();
+    const router = useRouter()
 
     const dispatch = useDispatch();
 
@@ -40,20 +43,24 @@ const Login: NextPage = (props: any) => {
         // recaptchaRef.current.execute();
 
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch('http://localhost:4949/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email, password: password }),
             })
             if (response.status === 200) {
                 const { token } = await response.json()
+                
                 // 성공할 경우 실제 로그인 처리
                 // await login({ token })
+                
+                router.push('/')
             } else {
                 console.log('Login failed.')
                 // https://github.com/developit/unfetch#caveats
                 let error = new Error(response.statusText)
                 error.message = response as string | any;
+                console.log(response)
                 console.log(error.message)
                 throw error
             }
