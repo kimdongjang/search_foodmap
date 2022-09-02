@@ -1,13 +1,17 @@
 import axios from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import * as cookie from 'cookie'
+import getConfig from 'next/config';
 import * as setCookie from 'set-cookie-parser'
 
 /**
  * axios Intercepter
  */
+
+const { publicRuntimeConfig } = getConfig();
 const axiosInstance = axios.create({
-  baseURL: process.env.SERVER_DOMAIN,
+  // baseURL: process.env.SERVER_DOMAIN,
+  baseURL: publicRuntimeConfig.backendUrl,
   withCredentials: true,
 });
 

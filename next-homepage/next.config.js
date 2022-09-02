@@ -44,8 +44,9 @@ module.exports = (phase, { defaultConfig }) => {
    */   
   const rewrites = () => {
     var backendUrl = 'http://localhost:4949/';
-    if (isDev) backendUrl = process.env.DEVELOPMENT_DESTINATION_URL;
+    if (isDev) backendUrl = process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL;
     if (isProd) backendUrl = process.env.PRODUCTION_DESTINATION_URL;
+    
     return [
       {
         source: '/redis/:path*',
@@ -64,7 +65,7 @@ module.exports = (phase, { defaultConfig }) => {
   const nextConfig = {    
     env:{
       SERVER_DOMAIN: (() => {
-        if (isDev) return process.env.DEVELOPMENT_DESTINATION_URL
+        if (isDev) return process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL
         if (isProd) return process.env.PRODUCTION_DESTINATION_URL
         if (isStaging) return 'http://localhost:4949/'
         return 'http://localhost:4949/'
@@ -87,12 +88,12 @@ module.exports = (phase, { defaultConfig }) => {
     // 빌드시 환경 변수 사용을 명시하며, 런타임 구성을 설정
     publicRuntimeConfig: {
       // Will be available on both server and client
-      backendUrl: process.env.DESTINATION_URL,
+      backendUrl: process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL,
     },
   }
       
   // next.config.js object
-  return { nextConfig,rewrites }
+  return { nextConfig, rewrites }
 }
 
 // module.exports = {

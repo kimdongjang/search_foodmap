@@ -6,8 +6,9 @@ import Email from "next-auth/providers/email";
 import React, { FormEventHandler, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch } from "react-redux";
-import { login } from "../auth/thunk";
 import { useRouter } from "next/router";
+import { ThunkDispatch } from '../modules/store'
+import { login } from "../modules/reducers/authReducer";
 
 
 interface LoginType {
@@ -27,7 +28,7 @@ const Login: NextPage = (props: any) => {
     const recaptchaRef = useRef<any>();
     const router = useRouter()
 
-    const dispatch = useDispatch();
+    const dispatch: ThunkDispatch = useDispatch();
 
 
     useEffect(() => {
@@ -40,43 +41,44 @@ const Login: NextPage = (props: any) => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        await dispatch(login({ email: email, password: password }));
         // recaptchaRef.current.execute();
 
-        try {
-            const response = await fetch('http://localhost:4949/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, password: password }),
-            })
-            if (response.status === 200) {
-                const { token } = await response.json()
+        // try {
+        //     const response = await fetch('http://localhost:4949/auth/login', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({ email: email, password: password }),
+        //     })
+        //     if (response.status === 200) {
+        //         const { token } = await response.json()
                 
-                // 성공할 경우 실제 로그인 처리
-                // await login({ token })
+        //         // 성공할 경우 실제 로그인 처리
+        //         // await login({ token })
                 
-                router.push('/')
-            } else {
-                console.log('Login failed.')
-                // https://github.com/developit/unfetch#caveats
-                let error = new Error(response.statusText)
-                error.message = response as string | any;
-                console.log(response)
-                console.log(error.message)
-                throw error
-            }
-        } catch (error) {
-            console.error(
-                'You have an error in your code or there are Network issues.',
-                error
-            )
+        //         router.push('/')
+        //     } else {
+        //         console.log('Login failed.')
+        //         // https://github.com/developit/unfetch#caveats
+        //         let error = new Error(response.statusText)
+        //         error.message = response as string | any;
+        //         console.log(response)
+        //         console.log(error.message)
+        //         throw error
+        //     }
+        // } catch (error) {
+        //     console.error(
+        //         'You have an error in your code or there are Network issues.',
+        //         error
+        //     )
 
-            // const { response } = error
-            // setUserData(
-            //     Object.assign({}, userData, {
-            //         error: response ? response.statusText : error.message,
-            //     })
-            // )
-        }
+        //     // const { response } = error
+        //     // setUserData(
+        //     //     Object.assign({}, userData, {
+        //     //         error: response ? response.statusText : error.message,
+        //     //     })
+        //     // )
+        // }
     }
     const onReCAPTCHAChange = (captchaCode: string) => {
         // If the reCAPTCHA code is null or undefined indicating that
