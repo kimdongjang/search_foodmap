@@ -12,6 +12,22 @@ import { MapProps, MapPropsList } from "../components/kakaoMap/MapProps";
 import { Shop } from "../types/shop";
 import { BsFillFileArrowUpFill } from 'react-icons/bs'
 import FloatMarkerList from "../components/search/FloatMarkerList";
+import styled from "styled-components";
+import tw from "tailwind-styled-components";
+
+const IndexWrapper = tw.div`
+  flex
+  h-screen
+`
+const MapWrapper = tw.div`
+  flex-1
+  flex-col
+`
+const IndexSidebar = tw.div`
+  flex
+  w-1/5
+
+`
 
 
 interface locationType {
@@ -111,61 +127,28 @@ const Index: NextPage = (props: any) => {
   const [currentCenter, setCurrentCenter] = useState({});
 
   return (
-    <div className={styles.searchContainer}>
+    <IndexWrapper>
       {location.coordinates.lat === 0 ?
         <div className={styles.geoApply}>
           <BsFillFileArrowUpFill className={styles.geoApplyIcon} />
           <p className={styles.geoApplyText}>위치 정보를 확인할 수 있게 권한을 주세요!</p>
         </div> : null}
-      <div className={styles.searchContainer__map}>
+      <MapWrapper>
         <KakaoMap latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />
-      </div>
-      <div className={styles.searchContainer__sidebar}>
+      </MapWrapper>
+      <IndexSidebar>
         <FloatMarkerList markerList={markerList} />
-      </div>
-
-
-
+      </IndexSidebar>
       {/* <aside className={styles.searchContainer__sidebar}>
         ...
       </aside> */}
-    </div>
+    </IndexWrapper>
   )
 }
 
 Index.getInitialProps = async (ctx: NextPageContext) => {
   const { token } = nextCookie(ctx);
   console.log(token)
-
-
-  // const redirectOnError = () =>
-  //   typeof window !== "undefined"
-  //     ? Router.push("/login")
-  //     : ctx.res.writeHead(302, { Location: "/login" }).end();
-
-  // const apiUrl = "/auth/login"
-  // try {
-  //   const response = await fetch(apiUrl, {
-  //     credentials: "include",
-  //     headers: {
-  //       Authorization: JSON.stringify({ token })
-  //     }
-  //   });
-
-  //   if (response.ok) {
-  //     const js = await response.json();
-  //     console.log("js", js);
-  //     return js;
-  //   } else {
-  //     // https://github.com/developit/unfetch#caveats
-  //     return await redirectOnError();
-  //   }
-  // } catch (error) {
-  //   // Implementation or Network error
-  //   return redirectOnError();
-  // }
-
-
   return { token }
 }
 // https://codesandbox.io/s/oxy3e?file=/pages/api/profile.js

@@ -1,14 +1,25 @@
 import type { NextPage } from 'next'
 import { DOMAttributes, KeyboardEvent, KeyboardEventHandler, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Product } from '../interfaces/Product'
 import { productsActions } from '../modules/reducers/productReducer'
 import axios, { AxiosResponse } from 'axios'
-import { testFetch } from '../modules/reducers/apiReducer'
 import styles from './search.module.scss'
 import { useRouter } from 'next/router'
-import { clearTimeout } from 'timers'
 import { searchItem, searchItemActions } from '../modules/reducers/searchItemReducer'
+import tw from "tailwind-styled-components";
+
+
+const MainWrapper = tw.div`
+  relative bg-blue-900 py-10 px-6 shadow-xl h-screen  
+`
+
+const SearchWrapper = tw.div`
+  h-full relative flex justify-center items-center flex-col
+`
+
+const SeachForm = tw.form`
+  relative flex justify-center items-center
+`
 
 export async function getServerSideProps(context: any) {
   const url: string = "/images/image1.jpg"
@@ -186,10 +197,10 @@ const Search: NextPage = (props: any) => {
   }
 
   return (
-    <div ref={topRef} className={styles.indexMain}>
-      <div className={styles.indexMain__search}>
+    <MainWrapper ref={topRef}>
+      <SearchWrapper>
         <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
-        <form className={styles.indexMain__searchForm}>
+        <SeachForm className={styles.indexMain__searchForm}>
           <div className={styles.indexMain__searchForm__button}>
             <button type="submit" id="searchsubmit" >
               <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" >
@@ -210,7 +221,7 @@ const Search: NextPage = (props: any) => {
                 </div>
               )) : <div></div>}
           </div> : null}
-        </form>
+        </SeachForm>
         <div className={styles.indexMain__searchButton}>
           <button onClick={Search}>검색</button>
         </div>
@@ -226,7 +237,7 @@ const Search: NextPage = (props: any) => {
             })}
           </ul>
         </div>
-      </div>
+      </SearchWrapper>
       {/* <div >   
           <button onClick={pushEvent}>Push Button</button>
           <img src={data?.message} alt="test" width={500} height={500}></img>
@@ -238,7 +249,7 @@ const Search: NextPage = (props: any) => {
           방문자 : {visitor}
         </div> */}
       </div>
-    </div >
+    </MainWrapper >
 
   )
 }
