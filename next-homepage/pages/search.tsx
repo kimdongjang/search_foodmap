@@ -45,7 +45,7 @@ const Search: NextPage = (props: any) => {
     "pd", process.env.PRODUCTION_DESTINATION_URL,
     "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
   const dispatch = useDispatch();
-  const data: Product = useSelector((state: any) => state.productReducer.data)
+  // const data: Product = useSelector((state: any) => state.productReducer.data)
   const keyword:string = useSelector((state: any) => state.searchItemReducer.data)
 
   const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];

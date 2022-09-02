@@ -138,32 +138,32 @@ Index.getInitialProps = async (ctx: NextPageContext) => {
   console.log(token)
 
 
-  const redirectOnError = () =>
-    typeof window !== "undefined"
-      ? Router.push("/login")
-      : ctx.res.writeHead(302, { Location: "/login" }).end();
+  // const redirectOnError = () =>
+  //   typeof window !== "undefined"
+  //     ? Router.push("/login")
+  //     : ctx.res.writeHead(302, { Location: "/login" }).end();
 
-  const apiUrl = process.env.SERVER_DOMAIN + "/auth/login"
-  try {
-    const response = await fetch(apiUrl, {
-      credentials: "include",
-      headers: {
-        Authorization: JSON.stringify({ token })
-      }
-    });
+  // const apiUrl = "/auth/login"
+  // try {
+  //   const response = await fetch(apiUrl, {
+  //     credentials: "include",
+  //     headers: {
+  //       Authorization: JSON.stringify({ token })
+  //     }
+  //   });
 
-    if (response.ok) {
-      const js = await response.json();
-      console.log("js", js);
-      return js;
-    } else {
-      // https://github.com/developit/unfetch#caveats
-      return await redirectOnError();
-    }
-  } catch (error) {
-    // Implementation or Network error
-    return redirectOnError();
-  }
+  //   if (response.ok) {
+  //     const js = await response.json();
+  //     console.log("js", js);
+  //     return js;
+  //   } else {
+  //     // https://github.com/developit/unfetch#caveats
+  //     return await redirectOnError();
+  //   }
+  // } catch (error) {
+  //   // Implementation or Network error
+  //   return redirectOnError();
+  // }
 
 
   return { token }

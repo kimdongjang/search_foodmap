@@ -15,9 +15,11 @@ import rootSaga from './sagas'
 import productsSlice from './reducers/productReducer'
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './reducers/authReducer'
+import searchItemSlice from './reducers/searchItemReducer'
 
 const combinedReducers = combineReducers({
   authReducer: authSlice.reducer,
+  searchItemReducer: searchItemSlice.reducer
 })
 export type OurStore = ReturnType<typeof combinedReducers>
 
