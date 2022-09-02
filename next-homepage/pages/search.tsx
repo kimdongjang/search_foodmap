@@ -17,8 +17,17 @@ const SearchWrapper = tw.div`
   h-full relative flex justify-center items-center flex-col
 `
 
-const SeachForm = tw.form`
+const SearchForm = tw.form`
   relative flex justify-center items-center
+`
+
+const SearchButtonWrapper = tw.div`
+  absolute ml-6 flex items-center pointer-events-none w-8 h-8
+`
+
+const SearchInput = tw.div`
+  absolute ml-72 mb-20 flex items-center
+  border-4 border-transparent rounded-lg bg-white
 `
 
 export async function getServerSideProps(context: any) {
@@ -200,18 +209,18 @@ const Search: NextPage = (props: any) => {
     <MainWrapper ref={topRef}>
       <SearchWrapper>
         <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
-        <SeachForm className={styles.indexMain__searchForm}>
-          <div className={styles.indexMain__searchForm__button}>
+        <SearchForm className={styles.indexMain__searchForm}>
+          <SearchButtonWrapper>
             <button type="submit" id="searchsubmit" >
               <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" >
                 <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path>
               </svg>
             </button>
-          </div>
-          <input type="text" name="s" id="s" className={styles.indexMain__searchForm__input}
+          </SearchButtonWrapper>
+          <SearchInput type="text" name="s" id="s"
             placeholder="Search" onChange={onChange} onFocus={()=>{setIsRecent(true)}} onBlur={()=>{setIsRecent(false)}}
             onKeyDown={onKeyDown} ref={searchRef}>
-          </input>
+          </SearchInput>
           {isRecent ? <div className={styles.indexMain__searchForm__keywordContainer}>
             {searchHistoryList.length && searchHistoryList.length > 0
               ? searchHistoryList.map((value, idx) => (
@@ -221,7 +230,7 @@ const Search: NextPage = (props: any) => {
                 </div>
               )) : <div></div>}
           </div> : null}
-        </SeachForm>
+        </SearchForm>
         <div className={styles.indexMain__searchButton}>
           <button onClick={Search}>검색</button>
         </div>
