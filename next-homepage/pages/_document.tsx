@@ -4,6 +4,11 @@ import { ServerStyleSheet } from "styled-components";
 //@ts-ignore
 import bundleCss from "!raw-loader!../styles/tailwindSSR.css";
 
+/**
+ * _document는 _app 다음에 실행되며,
+ * 공통적으로 활용할 <head> (Ex. 메타 태그)나 <body> 태그
+ * 안에 들어갈 내용들을 커스텀할때 활용합니다.
+ */
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();

@@ -1,20 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { createWrapper, HYDRATE, MakeStore } from 'next-redux-wrapper';
-import { AnyAction, CombinedState, combineReducers, Store } from 'redux';
-import authSlice, { AuthSliceState } from './authReducer';
-import productsSlice, { ProductApi } from './productReducer';
-import logger from 'redux-logger';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from '../sagas';
-import searchItemSlice from './searchItemReducer';
+export {}
+// import { configureStore } from '@reduxjs/toolkit';
+// import { createWrapper, HYDRATE, MakeStore } from 'next-redux-wrapper';
+// import { AnyAction, CombinedState, combineReducers, Store } from 'redux';
+// import { authSlice, AuthSliceState } from './authReducer';
+// import productsSlice, { ProductApi } from './productReducer';
+// import logger from 'redux-logger';
+// import createSagaMiddleware from 'redux-saga';
+// import searchItemSlice from './searchItemReducer';
 
-const rootReducer = combineReducers({
-  authReducer: authSlice.reducer,
-  productReducer: productsSlice.reducer,
-  searchItemReducer: searchItemSlice.reducer
-})
+// const rootReducer = combineReducers({
+//   authReducer: authSlice.reducer,
+//   productReducer: productsSlice.reducer,
+//   searchItemReducer: searchItemSlice.reducer
+// })
 
-export default rootReducer;
+// export default rootReducer;
 
 // ==================================================================================
 

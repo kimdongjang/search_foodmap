@@ -1,7 +1,7 @@
 import axios from "axios";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import Layout from "../../components/Layout";
+import AppLayout from "../../components/AppLayout";
 import { Post } from "../../types/post";
 
 export const getServerSideProps = async (ctx: { params: { id: any; }; }) => {
