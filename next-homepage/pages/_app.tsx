@@ -5,9 +5,10 @@ import { store, wrapper } from "../modules/store";
 import "../styles/globals.scss"
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
+  const MyComponent = Component as any;
   return (
-    <AppLayout>
-        <Component {...pageProps} />
+    <AppLayout>      
+        <MyComponent {...pageProps} />
     </AppLayout>
   )
 };

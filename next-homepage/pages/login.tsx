@@ -57,6 +57,7 @@ const Login: NextPage = (props: any) => {
         // 캡챠에 성공했을 경우
         alert(`Hey, ${email}`);
     }
+    const ReCAPTCHA_DOM = ReCAPTCHA as any;
 
     return (
         <div >
@@ -64,7 +65,7 @@ const Login: NextPage = (props: any) => {
                 <div className="w-full sm:max-w-md p-5 mx-auto">
                     <h2 className="mb-12 text-center text-5xl font-extrabold">Welcome.</h2>
                     <form onSubmit={handleSubmit}>
-                        <ReCAPTCHA
+                        <ReCAPTCHA_DOM
                             ref={recaptchaRef}
                             sitekey={sitekey}
                             size="normal"
@@ -98,20 +99,6 @@ const Login: NextPage = (props: any) => {
             </div>
         </div>
     )
-    // const {data: session} = useSession();
-    // useEffect(() => {
-    //     signIn();
-    // },[])
-    // return (
-    //     <div>
-    //         <p>/api/session</p>
-    //         <iframe src="/api/session" />
-    //         <h2>JSON Web Token</h2>
-    //         <p>/api/jwt</p>
-    //         <iframe src="/api/jwt" />
-    //         {/* <button onClick={signin()}>로그인</button> */}
-    //     </div>
-    // )
 }
 
 export default Login;

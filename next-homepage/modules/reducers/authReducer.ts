@@ -69,6 +69,7 @@ export const login = createAsyncThunk(
         'auth/login',
         credentials
       )
+      console.log(response.data.accessToken)
       const refetch = await axios.get<{ email: string }>('/api/users/profile', {
         headers: { Authorization: `Bearer ${response.data.accessToken}` },
       })
