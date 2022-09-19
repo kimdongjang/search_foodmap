@@ -9,3 +9,8 @@ https://davidhwang.netlify.app/TIL/(0320)nextjs%EC%97%90%EC%84%9C-next-cookies-%
 https://thewidlarzgroup.com/nextjs-auth/#step-3-state-management-system---redux-toolkit-kinda-optional  
 https://codesandbox.io/s/oxy3e?file=/pages/login.js  
 https://github.com/TheWidlarzGroup/nextjs-authentication/blob/step3-redux/pages/login.tsx  
+
+
+## kakao map api
+js: https://apis.map.kakao.com/web/sample/addMarkerClickEvent/ 
+react: https://react-kakao-maps-sdk.jaeseokim.dev/docs/sample/overlay/addMarkerClickEvent/
