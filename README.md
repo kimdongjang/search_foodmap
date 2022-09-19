@@ -5,7 +5,7 @@
 4. 추천수 기준 리뷰게시판
 
 ## next cookie 참고
-https://davidhwang.netlify.app/TIL/(0320)nextjs%EC%97%90%EC%84%9C-next-cookies-%EC%82%AC%EC%9A%A9-%EC%9D%B4%EC%8A%88/
-https://thewidlarzgroup.com/nextjs-auth/#step-3-state-management-system---redux-toolkit-kinda-optional
-https://codesandbox.io/s/oxy3e?file=/pages/login.js
-https://github.com/TheWidlarzGroup/nextjs-authentication/blob/step3-redux/pages/login.tsx
+https://davidhwang.netlify.app/TIL/(0320)nextjs%EC%97%90%EC%84%9C-next-cookies-%EC%82%AC%EC%9A%A9-%EC%9D%B4%EC%8A%88/  
+https://thewidlarzgroup.com/nextjs-auth/#step-3-state-management-system---redux-toolkit-kinda-optional  
+https://codesandbox.io/s/oxy3e?file=/pages/login.js  
+https://github.com/TheWidlarzGroup/nextjs-authentication/blob/step3-redux/pages/login.tsx  
