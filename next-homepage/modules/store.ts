@@ -15,10 +15,13 @@ import productsSlice from './reducers/productReducer'
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './reducers/authReducer'
 import searchItemSlice from './reducers/searchItemReducer'
+import { testSlice } from './reducers/apiReducer'
+import { useDispatch } from 'react-redux'
 
 const combinedReducers = combineReducers({
   authReducer: authSlice.reducer,
-  searchItemReducer: searchItemSlice.reducer
+  testReducer: testSlice.reducer,
+  searchItemReducer: searchItemSlice.reducer,
 })
 export type OurStore = ReturnType<typeof combinedReducers>
 
@@ -41,6 +44,9 @@ export const store = configureStore<OurStore>({
 })
 const makeStore = () => store
 
+// https://redux-toolkit.js.org/usage/usage-with-typescript#getting-the-dispatch-type
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch
 export const wrapper = createWrapper(makeStore, { debug: true })
 // export const wrapper = createWrapper(makeStore, { storeKey: 'key' })
 

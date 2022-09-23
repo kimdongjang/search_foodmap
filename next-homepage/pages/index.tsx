@@ -127,7 +127,7 @@ const Index: NextPage = (props: any) => {
   const [currentCenter, setCurrentCenter] = useState({});
 
   return (
-    <IndexWrapper>
+    <IndexWrapper >
       {location.coordinates.lat === 0 ?
         <div className={styles.geoApply}>
           <BsFillFileArrowUpFill className={styles.geoApplyIcon} />

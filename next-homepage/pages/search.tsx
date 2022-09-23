@@ -1,12 +1,15 @@
 import type { NextPage } from 'next'
 import { DOMAttributes, KeyboardEvent, KeyboardEventHandler, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { productsActions } from '../modules/reducers/productReducer'
 import axios, { AxiosResponse } from 'axios'
 import styles from './search.module.scss'
 import { useRouter } from 'next/router'
 import { searchItem, searchItemActions } from '../modules/reducers/searchItemReducer'
 import tw from "tailwind-styled-components";
+import { testFetch } from '../modules/reducers/apiReducer'
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useAppDispatch } from '../modules/store'
 
 
 const MainWrapper = tw.div`
@@ -28,6 +31,14 @@ const SearchButtonWrapper = tw.div`
 const SearchInput = tw.div`
   absolute ml-72 mb-20 flex items-center
   border-4 border-transparent rounded-lg bg-white
+`
+
+const SearchButton = tw.div`
+  flex items-center
+
+  absolute ml-18 mb-5
+  border-2 rounded-lg
+  bg-white 
 `
 
 export async function getServerSideProps(context: any) {
@@ -64,9 +75,8 @@ const Search: NextPage = (props: any) => {
     "npdd", process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL,
     "pd", process.env.PRODUCTION_DESTINATION_URL,
     "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
-  const dispatch = useDispatch();
   // const data: Product = useSelector((state: any) => state.productReducer.data)
-  const keyword:string = useSelector((state: any) => state.searchItemReducer.data)
+  const keyword: string = useSelector((state: any) => state.searchItemReducer.data)
 
   const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
   const tweet_eque_id: string = "1455546852137480196"
@@ -74,13 +84,17 @@ const Search: NextPage = (props: any) => {
   const topRef = useRef(null); // top으로 올리는 버튼
   const searchRef = useRef<HTMLInputElement>(null); // 검색 값 엘리먼트
 
-  
+
   const [isRecent, setIsRecent] = useState<boolean>(false);
   const [showTopButton, setShowTopButton] = useState(false);
   const displayAfter = 600;
 
 
   const [visitor, setVisitor] = useState<number>(0);
+
+  const imgHref = useSelector((state: any) => state.testReducer.imgHref);
+  const dispatch = useAppDispatch();
+
 
   const recommandList = [{
     name: "test1",
@@ -101,14 +115,27 @@ const Search: NextPage = (props: any) => {
   const [searchHistoryList, setSearchHistoryList] = useState<string[]>([]);
 
   /**
+   * test Reducer(api thunk redux)
+   */
+  useEffect(() => {
+    const test = async () => {
+      const apiAction = await dispatch(testFetch());
+      const img = unwrapResult(apiAction);
+      console.log(img)
+    }
+    test();
+
+  }, []);
+
+  /**
    * searchHistory List init in cookie
    */
   useEffect(() => {
-    const list:string[] = JSON.parse(localStorage.getItem('searchHistory'));    
-    if(list=== null || list.length === undefined) return;    
-    else {     
+    const list: string[] = JSON.parse(localStorage.getItem('searchHistory'));
+    if (list === null || list.length === undefined) return;
+    else {
       setSearchHistoryList(list)
-    }    
+    }
   }, []);
 
   /**
@@ -146,9 +173,6 @@ const Search: NextPage = (props: any) => {
     script.setAttribute("src", "https://platform.twitter.com/widgets.js");
     document.getElementsByClassName("twitter-timeline")[0].appendChild(script);
   }
-  {/* <div className={styles.twitterContainer}>
-    <div className="twitter-timeline" data-height="50%"></div>
-  </div> */}
 
   // useEffect(() => {
   //   const debounce = setTimeout(() => {
@@ -160,8 +184,8 @@ const Search: NextPage = (props: any) => {
   // },[keyWord])
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;    
-    dispatch(searchItemActions.changeSearchItem({data:value} as searchItem));
+    const { name, value } = e.target;
+    dispatch(searchItemActions.changeSearchItem({ data: value } as searchItem));
     updateData(value)
   }
 
@@ -184,16 +208,14 @@ const Search: NextPage = (props: any) => {
     // const input = searchRef.current.value;
     searchProcess(keyword);
   }
-  const searchProcess = (text:string) =>{   
+  const searchProcess = (text: string) => {
     var isOverlap = false;
     searchHistoryList.filter((value) => {
-      if(value === text)
-      {
+      if (value === text) {
         isOverlap = true;
       }
-    })        
-    if(!isOverlap) 
-    {
+    })
+    if (!isOverlap) {
       searchHistoryList.push(text);
       localStorage.setItem('searchHistory', JSON.stringify(searchHistoryList));
     }
@@ -218,22 +240,22 @@ const Search: NextPage = (props: any) => {
             </button>
           </SearchButtonWrapper>
           <SearchInput type="text" name="s" id="s"
-            placeholder="Search" onChange={onChange} onFocus={()=>{setIsRecent(true)}} onBlur={()=>{setIsRecent(false)}}
+            placeholder="Search" onChange={onChange} onFocus={() => { setIsRecent(true) }} onBlur={() => { setIsRecent(false) }}
             onKeyDown={onKeyDown} ref={searchRef}>
           </SearchInput>
           {isRecent ? <div className={styles.indexMain__searchForm__keywordContainer}>
             {searchHistoryList.length && searchHistoryList.length > 0
               ? searchHistoryList.map((value, idx) => (
                 <div key={idx} className={styles.indexMain__searchForm__keywordInner}
-                  onMouseDown={()=>{ searchProcess(value)}}>
+                  onMouseDown={() => { searchProcess(value) }}>
                   {value}
                 </div>
               )) : <div></div>}
           </div> : null}
         </SearchForm>
-        <div className={styles.indexMain__searchButton}>
+        <SearchButton>
           <button onClick={Search}>검색</button>
-        </div>
+        </SearchButton>
         <div className={styles.indexMain__searchTag}>
           <ul className="flex flex-column">
             {recommandList.map((data, i) => {
@@ -247,17 +269,6 @@ const Search: NextPage = (props: any) => {
           </ul>
         </div>
       </SearchWrapper>
-      {/* <div >   
-          <button onClick={pushEvent}>Push Button</button>
-          <img src={data?.message} alt="test" width={500} height={500}></img>
-          <div>{data?.message}</div>
-      </div > */}
-      <div className='py-32 text-center'>
-        {/* font-size:2.25rem, line-height: 2.5rem, extra-large */}
-        {/* <div className='text-4xl font-extrabold'>
-          방문자 : {visitor}
-        </div> */}
-      </div>
     </MainWrapper >
 
   )

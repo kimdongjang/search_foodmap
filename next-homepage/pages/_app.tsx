@@ -14,4 +14,3 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
 };
 
 export default wrapper.withRedux(MyApp)
-

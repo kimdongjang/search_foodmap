@@ -14,10 +14,10 @@ export const getStaticProps: GetStaticProps = async () => {
     // const res = await fetch("https://.../posts");
     // const posts = await res.json();
     const posts: Array<Post> = [
-        { post_id: 1, title: "test1", author: "user1", url: "http://ma", content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis asperiores dolorum illo culpa fugiat qui magnam animi, enim numquam nostrum provident neque eius maxime pariatur, sint, vero laboriosam nemo magni." , image:"https://picsum.photos/100/100"},
-        { post_id: 2, title: "test2", author: "user2", url: "http://ma", content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis asperiores dolorum illo culpa fugiat qui magnam animi, enim numquam nostrum provident neque eius maxime pariatur, sint, vero laboriosam nemo magni." , image:"https://picsum.photos/100/100"},
-        { post_id: 3, title: "test3", author: "user3", url: "http://ma", content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis asperiores dolorum illo culpa fugiat qui magnam animi, enim numquam nostrum provident neque eius maxime pariatur, sint, vero laboriosam nemo magni." , image:"https://picsum.photos/100/100"},
-        { post_id: 4, title: "test4", author: "user4", url: "http://ma", content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis asperiores dolorum illo culpa fugiat qui magnam animi, enim numquam nostrum provident neque eius maxime pariatur, sint, vero laboriosam nemo magni." , image:"https://picsum.photos/100/100"},
+        { post_id: 1, title: "test1", author: "user1", url: "http://ma", content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis asperiores dolorum illo culpa fugiat qui magnam animi, enim numquam nostrum provident neque eius maxime pariatur, sint, vero laboriosam nemo magni.", image: "https://picsum.photos/100/100" },
+        { post_id: 2, title: "test2", author: "user2", url: "http://ma", content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis asperiores dolorum illo culpa fugiat qui magnam animi, enim numquam nostrum provident neque eius maxime pariatur, sint, vero laboriosam nemo magni.", image: "https://picsum.photos/100/100" },
+        { post_id: 3, title: "test3", author: "user3", url: "http://ma", content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis asperiores dolorum illo culpa fugiat qui magnam animi, enim numquam nostrum provident neque eius maxime pariatur, sint, vero laboriosam nemo magni.", image: "https://picsum.photos/100/100" },
+        { post_id: 4, title: "test4", author: "user4", url: "http://ma", content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis asperiores dolorum illo culpa fugiat qui magnam animi, enim numquam nostrum provident neque eius maxime pariatur, sint, vero laboriosam nemo magni.", image: "https://picsum.photos/100/100" },
     ]
 
     // posts 데이터가 담긴 prop를 빌드 시간에 Blog 컴포넌트로 전달한다.
@@ -70,7 +70,7 @@ function boards(props: any) {
                             </div>
 
                             <div className="flex items-center">
-                                <img src={post.image}/>
+                                <img src={post.image} />
                             </div>
 
                         </div>

@@ -19,18 +19,21 @@ export enum AuthStates {
  * createAsyncThunk는 결과에 상관없이 무조건 항상 이행된 프로미스를 반환함.
  * try-catch를 이용해 rejectedValue()로 createAsyncThunk 내부에서 오류처리
  */
-export const fetchUser = createAsyncThunk('auth/me', async (_, thunkAPI) => {
-  try {
-    const response = await axios.get<{
-      name: string
-      email: string
-      type: string
-    }>('api/me')
-    return response.data
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error)
+export const fetchUser = createAsyncThunk(
+  'auth/profile',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get<{
+        name: string
+        email: string
+        type: string
+      }>('api/users/me')
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
   }
-})
+)
 
 /**
  * 파라미터 1: 액션타입 문자열
@@ -38,10 +41,7 @@ export const fetchUser = createAsyncThunk('auth/me', async (_, thunkAPI) => {
  */
 export const register = createAsyncThunk(
   'auth/register',
-  async (
-    credentials: { email: string; password: string; name: string },
-    thunkAPI
-  ) => {
+  async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
       const response = await axios.post<{ accessToken: string }>(
         'api/register',
@@ -52,7 +52,7 @@ export const register = createAsyncThunk(
       })
       return {
         accessToken: response.data.accessToken,
-        me: { name: refetch.data.name },
+        user: { name: refetch.data.name },
       }
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -60,22 +60,29 @@ export const register = createAsyncThunk(
   }
 )
 
+/**
+ * 로그인 api를 호출하고 accessToken을 받아옴
+ * credentials: 사용자가 입력한 회원 정보
+ */
 export const login = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
-      console.log('호출')
+      /**
+       * 로그인시 리턴 받을 값을 명시(accessToken, etc)
+       */
       const response = await axios.post<{ accessToken: string }>(
         'auth/login',
         credentials
       )
       console.log(response.data.accessToken)
-      const refetch = await axios.get<{ email: string }>('/api/users/profile', {
-        headers: { Authorization: `Bearer ${response.data.accessToken}` },
-      })
+
+      // const refetch = await axios.get<{ email: string }>('/api/users/profile', {
+      //   headers: { Authorization: `Bearer ${response.data.accessToken}` },
+      // })
       return {
         accessToken: response.data.accessToken,
-        me: { email: refetch.data.email },
+        // user: { email: refetch.data.email },
       }
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error })
@@ -95,10 +102,11 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 export interface AuthSliceState {
   accessToken: string
   loading: AuthStates
-  me?: {
+  user?: {
     name?: string
     email?: string
   }
+  isLogin: boolean
   error?: SerializedError
 }
 
@@ -106,7 +114,8 @@ export interface AuthSliceState {
 const internalInitialState: AuthSliceState = {
   accessToken: '',
   loading: AuthStates.IDLE,
-  me: null,
+  user: null,
+  isLogin: false,
   error: null,
 }
 
@@ -126,7 +135,7 @@ export const authSlice = createSlice({
       // Update the state.
       // fulfilled, 작업이 성공할 경우 데이터를 가져옴
       state.accessToken = action.payload.accessToken
-      state.me = action.payload.me
+      state.isLogin = true
       state.loading = AuthStates.IDLE
     })
     builder.addCase(login.rejected, (state, action) => {
@@ -151,7 +160,7 @@ export const authSlice = createSlice({
 
     builder.addCase(register.fulfilled, (state, action) => {
       state.accessToken = action.payload.accessToken
-      state.me = action.payload.me
+      state.user = action.payload.user
       state.loading = AuthStates.IDLE
     })
     builder.addCase(register.rejected, (state, action) => {
@@ -162,7 +171,7 @@ export const authSlice = createSlice({
       // throw new Error(action.error.message)
     })
     builder.addCase(fetchUser.fulfilled, (state, action) => {
-      state.me = action.payload
+      state.user = action.payload
     })
   },
 })
