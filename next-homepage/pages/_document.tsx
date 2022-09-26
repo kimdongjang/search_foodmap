@@ -1,8 +1,6 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document'
 import React from "react";
 import { ServerStyleSheet } from "styled-components";
-//@ts-ignore
-import bundleCss from "!raw-loader!../styles/tailwindSSR.css";
 
 /**
  * _document는 _app 다음에 실행되며,
@@ -17,7 +15,7 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App:any) => (props) =>
+          enhanceApp: (App: any) => (props) =>
             sheet.collectStyles(<App {...props} />),
         });
 
@@ -27,12 +25,7 @@ export default class MyDocument extends Document {
         styles: [
           initialProps.styles,
           ///////// 여기서부터 /////////
-          <style
-            key="custom"
-            dangerouslySetInnerHTML={{
-              __html: bundleCss,
-            }}
-          />,
+
           ///////// 여기까지 추가 ////////
           sheet.getStyleElement(),
         ],

@@ -135,6 +135,7 @@ const Index: NextPage = (props: any) => {
         </div> : null}
       <MapWrapper>
         <KakaoMap latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />
+
       </MapWrapper>
       <IndexSidebar>
         <FloatMarkerList markerList={markerList} />

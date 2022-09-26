@@ -12,6 +12,8 @@ import { useAppDispatch } from '../modules/store'
 
 
 import tw from "tailwind-styled-components";
+import useSearchHistory from '../hooks/search/useSearchHistory'
+import FloatSearch from '../components/search/FloatSearch'
 
 
 const MainWrapper = tw.div`
@@ -36,12 +38,22 @@ const SearchInput = tw.input`
 
 `
 
-const SearchButton = tw.div`
-  flex items-center
+const SearchIcon = tw.div`
+  flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none
+`
+const SearchAudioIcon = tw.button`
+  flex absolute inset-y-0 right-0 items-center pr-3
+`
+const SearchButton = tw.button`
+inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium
+ text-white bg-blue-700 border border-blue-700
+ hover:bg-blue-800 focus:ring-4
+ focus:outline-none focus:ring-blue-300
+  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+`
 
-  absolute ml-18 mb-5
-  border-2 rounded-lg
-  bg-white 
+const KeywordContainer = tw.div`
+  z-[3] rounded-lg w-[300px] h-[50vh] bg-white absolute p-8
 `
 
 export async function getServerSideProps(context: any) {
@@ -71,21 +83,15 @@ export async function getServerSideProps(context: any) {
 
 
 const Search: NextPage = (props: any) => {
-  console.log(
-    "d", process.env.DESTINATION_URL,
-    "pd", process.env.NEXT_PUBLIC_DESTINATION_URL,
-    "dd", process.env.DEVELOPMENT_DESTINATION_URL,
-    "npdd", process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL,
-    "pd", process.env.PRODUCTION_DESTINATION_URL,
-    "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
+  // console.log(
+  //   "d", process.env.DESTINATION_URL,
+  //   "pd", process.env.NEXT_PUBLIC_DESTINATION_URL,
+  //   "dd", process.env.DEVELOPMENT_DESTINATION_URL,
+  //   "npdd", process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL,
+  //   "pd", process.env.PRODUCTION_DESTINATION_URL,
+  //   "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
   // const data: Product = useSelector((state: any) => state.productReducer.data)
   const keyword: string = useSelector((state: any) => state.searchItemReducer.data)
-
-  const topRef = useRef(null); // top으로 올리는 버튼
-  const searchRef = useRef<HTMLInputElement>(null); // 검색 값 엘리먼트
-
-
-  const [isRecent, setIsRecent] = useState<boolean>(false);
 
   const [visitor, setVisitor] = useState<number>(0);
 
@@ -109,7 +115,6 @@ const Search: NextPage = (props: any) => {
     name: "test4",
     type: "test"
   }]
-  const [searchHistoryList, setSearchHistoryList] = useState<string[]>([]);
 
   /**
    * test Reducer(api thunk redux)
@@ -122,17 +127,6 @@ const Search: NextPage = (props: any) => {
     }
     test();
 
-  }, []);
-
-  /**
-   * searchHistory List init in cookie
-   */
-  useEffect(() => {
-    const list: string[] = JSON.parse(localStorage.getItem('searchHistory'));
-    if (list === null || list.length === undefined) return;
-    else {
-      setSearchHistoryList(list)
-    }
   }, []);
 
   /**
@@ -152,97 +146,19 @@ const Search: NextPage = (props: any) => {
     // get();
   }, []);
 
-  // useEffect(() => {
-  //   const debounce = setTimeout(() => {
-  //     if(keyWord) updateData(keyWord);
-  //   },200);
-  //   return () => {
-  //     clearTimeout(debounce)
-  //   }
-  // },[keyWord])
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    dispatch(searchItemActions.changeSearchItem({ data: value } as searchItem));
-    updateData(value)
-  }
-
-  const updateData = async (value: string) => {
-
-  }
-
-
-  const router = useRouter();
-  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key == 'Enter') {
-      e.preventDefault();
-      Search();
-    }
-  }
-  /**
-   * search 화면으로 이동
-   */
-  const Search = () => {
-    // const input = searchRef.current.value;
-    searchProcess(keyword);
-  }
-  const searchProcess = (text: string) => {
-    var isOverlap = false;
-    searchHistoryList.filter((value) => {
-      if (value === text) {
-        isOverlap = true;
-      }
-    })
-    if (!isOverlap) {
-      searchHistoryList.push(text);
-      localStorage.setItem('searchHistory', JSON.stringify(searchHistoryList));
-    }
-    router.push({
-      pathname: "/",
-      query: {
-        keyword: text
-      }
-    });
-  }
 
   return (
-    <MainWrapper ref={topRef}>
+    <MainWrapper>
       <SearchWrapper>
-        <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
-        <SearchForm >
-          <label className="sr-only">Search</label>
-          <SearchFormWrapper>
-            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-              <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-            </div>
-            <SearchInput type="text" placeholder="Search Mockups, Logos, Design Templates..."
-              laceholder="Search" onChange={onChange} onFocus={() => { setIsRecent(true) }} onBlur={() => { setIsRecent(false) }}
-              onKeyDown={onKeyDown} ref={searchRef} />
-            <button type="button" className="flex absolute inset-y-0 right-0 items-center pr-3">
-              <svg aria-hidden="true" className="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"></path></svg>
-            </button>
-          </SearchFormWrapper>
-          {isRecent ? <div className={styles.indexMain__searchForm__keywordContainer}>
-            {searchHistoryList.length && searchHistoryList.length > 0
-              ? searchHistoryList.map((value, idx) => (
-                <div key={idx} className={styles.indexMain__searchForm__keywordInner}
-                  onMouseDown={() => { searchProcess(value) }}>
-                  {value}
-                </div>
-              )) : <div></div>}
-          </div> : null}
-          <button type="submit" onClick={Search} className="inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg-blue-700 border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            <svg aria-hidden="true" className="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>Search
-          </button>
-        </SearchForm>
-        <div className={styles.indexMain__searchTag}>
+        {/* <TopButton displayAfter={0} target={topRef}>TOP</TopButton> */}
+        <FloatSearch />
+        <div className="flex justify-center items-center">
           <ul className="flex flex-column">
             {recommandList.map((data, i) => {
               return (
-                <div className="inline flex flex-column" key={i}>
-                  <li className={styles.indexMain__searchTag__text}>{data.name}</li>
-                  <div className={styles.indexMain__searchTag__line}></div>
+                <div className="inline-flex flex-column" key={i}>
+                  <li className="p-2">{data.name}</li>
+                  <div className="bg-gray-200 w-2 h-2"></div>
                 </div>
               )
             })}
