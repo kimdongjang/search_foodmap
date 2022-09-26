@@ -6,14 +6,16 @@ import axios, { AxiosResponse } from 'axios'
 import styles from './search.module.scss'
 import { useRouter } from 'next/router'
 import { searchItem, searchItemActions } from '../modules/reducers/searchItemReducer'
-import tw from "tailwind-styled-components";
 import { testFetch } from '../modules/reducers/apiReducer'
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useAppDispatch } from '../modules/store'
 
 
+import tw from "tailwind-styled-components";
+
+
 const MainWrapper = tw.div`
-  relative bg-blue-900 py-10 px-6 shadow-xl h-screen  
+  relative bg-blue-900 py-10 px-6 shadow-xl h-full
 `
 
 const SearchWrapper = tw.div`
@@ -24,13 +26,14 @@ const SearchForm = tw.form`
   relative flex justify-center items-center
 `
 
-const SearchButtonWrapper = tw.div`
-  absolute ml-6 flex items-center pointer-events-none w-8 h-8
+const SearchFormWrapper = tw.div`
+  relative w-full
 `
 
-const SearchInput = tw.div`
-  absolute ml-72 mb-20 flex items-center
-  border-4 border-transparent rounded-lg bg-white
+const SearchInput = tw.input`
+  bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 
+  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+
 `
 
 const SearchButton = tw.div`
@@ -78,17 +81,11 @@ const Search: NextPage = (props: any) => {
   // const data: Product = useSelector((state: any) => state.productReducer.data)
   const keyword: string = useSelector((state: any) => state.searchItemReducer.data)
 
-  const images: string[] = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
-  const tweet_eque_id: string = "1455546852137480196"
-
   const topRef = useRef(null); // top으로 올리는 버튼
   const searchRef = useRef<HTMLInputElement>(null); // 검색 값 엘리먼트
 
 
   const [isRecent, setIsRecent] = useState<boolean>(false);
-  const [showTopButton, setShowTopButton] = useState(false);
-  const displayAfter = 600;
-
 
   const [visitor, setVisitor] = useState<number>(0);
 
@@ -155,25 +152,6 @@ const Search: NextPage = (props: any) => {
     // get();
   }, []);
 
-  const pushEvent = useCallback(() => {
-    dispatch(productsActions.getProducts());
-  }, [])
-
-  const TweetContainerInit = () => {
-    const anchor = document.createElement("a");
-    anchor.setAttribute("class", "twitter-timeline");
-    anchor.setAttribute("data-chrome", "nofooter");
-    anchor.setAttribute("sourceType", "profile");
-    anchor.setAttribute("screenName", "VHZ_EQue");
-    anchor.setAttribute("data-height", "400");
-    anchor.setAttribute("href", "https://twitter.com/VHZ_EQue");
-    document.getElementsByClassName("twitter-timeline")[0].appendChild(anchor);
-
-    const script = document.createElement("script");
-    script.setAttribute("src", "https://platform.twitter.com/widgets.js");
-    document.getElementsByClassName("twitter-timeline")[0].appendChild(script);
-  }
-
   // useEffect(() => {
   //   const debounce = setTimeout(() => {
   //     if(keyWord) updateData(keyWord);
@@ -231,18 +209,20 @@ const Search: NextPage = (props: any) => {
     <MainWrapper ref={topRef}>
       <SearchWrapper>
         <TopButton displayAfter={0} target={topRef}>TOP</TopButton>
-        <SearchForm className={styles.indexMain__searchForm}>
-          <SearchButtonWrapper>
-            <button type="submit" id="searchsubmit" >
-              <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" >
-                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path>
-              </svg>
+        <SearchForm >
+          <label className="sr-only">Search</label>
+          <SearchFormWrapper>
+            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+              <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+            </div>
+            <SearchInput type="text" placeholder="Search Mockups, Logos, Design Templates..."
+              laceholder="Search" onChange={onChange} onFocus={() => { setIsRecent(true) }} onBlur={() => { setIsRecent(false) }}
+              onKeyDown={onKeyDown} ref={searchRef} />
+            <button type="button" className="flex absolute inset-y-0 right-0 items-center pr-3">
+              <svg aria-hidden="true" className="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"></path></svg>
             </button>
-          </SearchButtonWrapper>
-          <SearchInput type="text" name="s" id="s"
-            placeholder="Search" onChange={onChange} onFocus={() => { setIsRecent(true) }} onBlur={() => { setIsRecent(false) }}
-            onKeyDown={onKeyDown} ref={searchRef}>
-          </SearchInput>
+          </SearchFormWrapper>
           {isRecent ? <div className={styles.indexMain__searchForm__keywordContainer}>
             {searchHistoryList.length && searchHistoryList.length > 0
               ? searchHistoryList.map((value, idx) => (
@@ -252,10 +232,10 @@ const Search: NextPage = (props: any) => {
                 </div>
               )) : <div></div>}
           </div> : null}
+          <button type="submit" onClick={Search} className="inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg-blue-700 border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <svg aria-hidden="true" className="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>Search
+          </button>
         </SearchForm>
-        <SearchButton>
-          <button onClick={Search}>검색</button>
-        </SearchButton>
         <div className={styles.indexMain__searchTag}>
           <ul className="flex flex-column">
             {recommandList.map((data, i) => {

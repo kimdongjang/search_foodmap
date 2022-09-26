@@ -9,7 +9,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     return (
         <>
             <Header />
-            <div>{children}</div>
+            <div style={{ height: '100%' }}>{children}</div>
             <Footer />
         </>
     )
