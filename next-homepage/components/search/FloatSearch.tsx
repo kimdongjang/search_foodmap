@@ -1,6 +1,6 @@
 
 
-import { useRef, useState, KeyboardEvent } from "react";
+import { useRef, useState, KeyboardEvent, useEffect } from "react";
 import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
 import useSearchHistory from "../../hooks/search/useSearchHistory";
@@ -36,32 +36,37 @@ dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
 `
 
 const KeywordContainer = tw.div`
-  z-[3] rounded-lg w-[300px] h-[50vh] bg-white absolute p-8
+  z-[3] rounded-lg w-[300px] h-[50vh] bg-white absolute p-8 top-[30%]
 `
 
 const FloatSearch = () => {
-  const searchRef = useRef<HTMLInputElement>(null); // 검색 값 엘리먼트
-
-
-  const keyword: string = useSelector((state: any) => state.searchItemReducer.data)
-  const dispatch = useAppDispatch();
+  const searchRef = useRef<HTMLInputElement>(null); // 검색 값 엘리먼트  
+  // const dispatch = useAppDispatch();
   const [isRecent, setIsRecent] = useState<boolean>(false);
-  const [searchInputData, setSearchInputData] = useState<string>("");
+  const keyword: string = useSelector((state: any) => state.searchItemReducer.data)
+  const [inputData, setInputData] = useState<string>("");
 
 
-  const searchHistroy = useSearchHistory();
-
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    dispatch(searchItemActions.changeSearchItem({ data: value } as searchItem));
+    // setInputData(value);
+    // dispatch(searchItemActions.changeSearchItem({ data: value } as searchItem));
   }
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key == 'Enter') {
       e.preventDefault();
-      searchHistroy.Search(searchInputData)
+      searchHistroy.Search(inputData)
     }
   }
+
+  /**
+   * 초기화 시
+   */
+  useEffect(() => {
+    setInputData(keyword)
+  }, [])
+
+  const searchHistroy = useSearchHistory();
 
   return (
     <div>
@@ -70,29 +75,37 @@ const FloatSearch = () => {
         <SearchFormWrapper>
           <SearchIcon>
             <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
           </SearchIcon>
-          <SearchInput type="text" placeholder="Search Mockups, Logos, Design Templates..."
-            laceholder="Search" onChange={onChange} onFocus={() => { setIsRecent(true) }} onBlur={() => { setIsRecent(false) }}
-            onKeyDown={onKeyDown} ref={searchRef} value={searchInputData} />
+          <SearchInput type="text" placeholder="Search"
+            onChange={onInputChange}
+            onFocus={() => { setIsRecent(true) }} onBlur={() => { setIsRecent(false) }}
+            onKeyDown={onKeyDown}
+            defaultValue={inputData} />
           <SearchAudioIcon type="button">
-            <svg aria-hidden="true" className="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"></path></svg>
+            <svg aria-hidden="true" className="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd"></path></svg>
           </SearchAudioIcon>
         </SearchFormWrapper>
         {isRecent ? <KeywordContainer>
-          {searchHistroy.list.length && searchHistroy.list.length > 0
-            ? searchHistroy.list.map((historyData, idx) => (
-              <div key={idx}
-                onMouseDown={() => { searchHistroy.Search(historyData) }}>
-                {historyData}
-              </div>
-            )) : <div></div>}
+          {searchHistroy.list !== null && searchHistroy.list.length > 0
+            ? searchHistroy.list.map((historyData, idx) => {
+              console.log(historyData)
+              if (historyData !== null)
+                return (
+
+                  <div key={idx}
+                    onMouseDown={() => { searchHistroy.Search(historyData) }}>
+                    {historyData}
+                  </div>
+                )
+            }) : <div></div>}
         </KeywordContainer> : null}
-        <SearchButton type="submit" onClick={searchHistroy.Search(searchInputData)}>
-          <svg aria-hidden="true" className="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>Search
+        <SearchButton type="submit" onClick={searchHistroy.Search(inputData)}>
+          <svg aria-hidden="true" className="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>Search
         </SearchButton>
       </SearchForm>
-    </div>
+    </div >
   )
 }
 export default FloatSearch;

@@ -14,6 +14,7 @@ import { BsFillFileArrowUpFill } from 'react-icons/bs'
 import FloatMarkerList from "../components/search/FloatMarkerList";
 import styled from "styled-components";
 import tw from "tailwind-styled-components";
+import FloatSearch from "../components/search/FloatSearch";
 
 const IndexWrapper = tw.div`
   flex
@@ -27,6 +28,11 @@ const IndexSidebar = tw.div`
   flex
   w-1/5
 
+`
+const FloatSearchWrapper = tw.div`
+  relative absolute top-[10%] left-[5%] z-[3]
+  bg-white p-2
+  rounded-lg
 `
 
 
@@ -133,9 +139,12 @@ const Index: NextPage = (props: any) => {
           <BsFillFileArrowUpFill className={styles.geoApplyIcon} />
           <p className={styles.geoApplyText}>위치 정보를 확인할 수 있게 권한을 주세요!</p>
         </div> : null}
+
       <MapWrapper>
         <KakaoMap latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />
-
+        <FloatSearchWrapper>
+          <FloatSearch />
+        </FloatSearchWrapper>
       </MapWrapper>
       <IndexSidebar>
         <FloatMarkerList markerList={markerList} />

@@ -91,7 +91,7 @@ const Search: NextPage = (props: any) => {
   //   "pd", process.env.PRODUCTION_DESTINATION_URL,
   //   "nppd", process.env.NEXT_PUBLIC_PRODUCTION_DESTINATION_URL);
   // const data: Product = useSelector((state: any) => state.productReducer.data)
-  const keyword: string = useSelector((state: any) => state.searchItemReducer.data)
+  // const keyword: string = useSelector((state: any) => state.searchItemReducer.data)
 
   const [visitor, setVisitor] = useState<number>(0);
 

@@ -1,25 +1,35 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import {
+  searchItem,
+  searchItemActions,
+} from '../../modules/reducers/searchItemReducer'
 import { useAppDispatch } from '../../modules/store'
 
 const useSearchHistory = () => {
   const router = useRouter()
   const [list, setList] = useState<string[]>([])
+  const dispatch = useAppDispatch()
 
   /**
    * searchHistory List init in cookie
    */
   useEffect(() => {
-    const list: string[] = JSON.parse(localStorage.getItem('searchHistory'))
-    if (list === null || list.length === undefined) return
-    else {
-      setList(list)
+    try {
+      const list: any[] = JSON.parse(localStorage.getItem('searchHistory'))
+      if (list === null || list.length === undefined) return
+      else {
+        setList(list)
+      }
+    } catch (err) {
+      console.log(err)
     }
   }, [])
 
   const Search = (text: string) => {
-    if (text === '') return
+    if (text === '' || text === undefined) return
+    alert(text)
     var isOverlap = false
     list.filter((value) => {
       if (value === text) {
@@ -28,6 +38,7 @@ const useSearchHistory = () => {
     })
     if (!isOverlap) {
       list.push(text)
+      dispatch(searchItemActions.changeSearchItem({ data: text } as searchItem))
       localStorage.setItem('searchHistory', JSON.stringify(list))
     }
     router.push({
