@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import { DOMAttributes, KeyboardEvent, KeyboardEventHandler, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { productsActions } from '../modules/reducers/productReducer'
 import axios, { AxiosResponse } from 'axios'
 import styles from './search.module.scss'
 import { useRouter } from 'next/router'
@@ -17,7 +16,7 @@ import FloatSearch from '../components/search/FloatSearch'
 
 
 const MainWrapper = tw.div`
-  relative bg-blue-900 py-10 px-6 shadow-xl h-full
+  relative bg-blue-900 py-10 px-6 shadow-xl h-screen
 `
 
 const SearchWrapper = tw.div`
@@ -121,9 +120,9 @@ const Search: NextPage = (props: any) => {
    */
   useEffect(() => {
     const test = async () => {
-      const apiAction = await dispatch(testFetch());
-      const img = unwrapResult(apiAction);
-      console.log(img)
+      // const apiAction = await dispatch(testFetch());
+      // const img = unwrapResult(apiAction);
+      // console.log(img)
     }
     test();
 

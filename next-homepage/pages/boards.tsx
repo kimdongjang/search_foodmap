@@ -100,43 +100,6 @@ function boards(props: any) {
             </div>
 
         </div>
-        // <div className={style.tableWrap}>
-        //     <table className={style.tableColumnList}>
-        //         <colgroup>
-        //             <col width="140" />
-        //             <col width="auto" />
-        //             <col width="140" />
-        //             <col width="120" />
-        //         </colgroup>
-        //         <thead className={style.tableColumnListHeader}>
-        //             <tr >
-        //                 <th >번호</th>
-        //                 <th >제목</th>
-        //                 <th >등록일</th>
-        //                 <th >조회수</th>
-        //             </tr>
-        //         </thead>
-        //         <tbody>
-        //             {props && props.posts.map((post: Post, index: any) =>
-        //             (
-        //                 <tr onClick={() => handlePostClick(post)} key={index}>
-        //                     <td className={style.tableColumnListData} >{post.post_id}</td>
-        //                     <td className={style.tableColumnListData} >{post.title}</td>
-        //                     <td className={style.tableColumnListData} >{post.apply_date}</td>
-        //                     <td className={style.tableColumnListData} >{post.count}</td>
-        //                 </tr>
-        //             )
-        //             )}
-
-        //         </tbody>
-        //     </table>
-        // </div>
     );
 
 }
-
-// boards.getStaticProps = async (ctx:any) => {
-//     const res = await fetch('https://api.github.com/repos/vercel/next.js')
-//     const json = await res.json()
-//     return { posts: json.stargazers_count }
-// }

@@ -3,9 +3,12 @@ import { Shop } from "../../types/shop";
 import styles from "./kakaoMap.module.scss"
 import { MapProps, MapPropsList } from "./MapProps";
 import { Map, MapMarker } from "react-kakao-maps-sdk"
+import { mapData } from "../../types/mapData";
 
 
-export default function KakaoMap({ latitude, longitude, markerList = [] }: any) {
+export default function KakaoMap({ latitude, longitude, markerList = [] }: mapData<Shop>) {
+    const [state, setState] = useState<kakao.maps.event.EventTarget>()
+
     useEffect(() => {
         // 모바일일 경우 현재 위치정보 팝업
 
@@ -55,9 +58,8 @@ export default function KakaoMap({ latitude, longitude, markerList = [] }: any) 
         // return () => mapScript.removeEventListener("load", onLoadKakaoMap);
 
     }, [latitude, longitude, markerList])
-    const openMarkerWindow = (data:Shop) => {
-        alert(data);
-        return(
+    const openMarkerWindow = (data: Shop) => {
+        return (
             <div className={styles.map__marker}>
                 <h1>{data.name}</h1>
                 <a style={{ color: "cadetblue" }} href={`tel:${data.callNumber}`}>{data.callNumber}</a>
@@ -66,13 +68,34 @@ export default function KakaoMap({ latitude, longitude, markerList = [] }: any) 
             </div>
         )
     }
+    /**
+     * 중심 좌표 변경시의 이벤트
+     * @param map 
+     */
+    const centerChanged = (map: kakao.maps.Map) => {
+        setState({
+            level: map.getLevel(),
+            center: {
+                lat: map.getCenter().getLat(),
+                lng: map.getCenter().getLng(),
+            }
+        })
+    }
+
+    const moveCenter = () => {
+        setState({
+            center: { lat: 33.45058, lng: 126.574942 },
+            isPanto: true,
+        })
+    }
 
     return (
-        <Map id="map" style={{ width: "100%", height: "80vh" }} center={{ lat: latitude, lng: longitude }}>
-            {markerList.map((data: Shop, key:any) => {
+        <Map id="map" style={{ width: "100%", height: "80vh" }} center={{ lat: latitude, lng: longitude }}
+            onCenterChanged={centerChanged}>
+            {markerList.map((data: Shop, key: any) => {
                 return (
                     <MapMarker position={{ lat: data.lat, lng: data.lng }} clickable={true} onClick={() => openMarkerWindow(data)} key={key}>
-                       
+
                     </MapMarker>
                 )
             })}

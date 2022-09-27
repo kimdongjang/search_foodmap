@@ -35,6 +35,13 @@ const FloatSearchWrapper = tw.div`
   rounded-lg
 `
 
+const GeoApply = tw.div`
+absolute left-[1%] top-[5%] w-full
+`
+const GeoApplyText = tw.p`
+z-[2] absolute mt-2
+`
+
 
 interface locationType {
   loaded: boolean;
@@ -132,13 +139,14 @@ const Index: NextPage = (props: any) => {
 
   const [currentCenter, setCurrentCenter] = useState({});
 
+
   return (
     <IndexWrapper >
       {location.coordinates.lat === 0 ?
-        <div className={styles.geoApply}>
+        <GeoApply>
           <BsFillFileArrowUpFill className={styles.geoApplyIcon} />
-          <p className={styles.geoApplyText}>위치 정보를 확인할 수 있게 권한을 주세요!</p>
-        </div> : null}
+          <GeoApplyText>위치 정보를 확인할 수 있게 권한을 주세요!</GeoApplyText>
+        </GeoApply> : null}
 
       <MapWrapper>
         <KakaoMap latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />

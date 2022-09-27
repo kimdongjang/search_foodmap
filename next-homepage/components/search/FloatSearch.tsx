@@ -16,7 +16,7 @@ relative w-full
 `
 
 const SearchInput = tw.input`
-  bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 
+  bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2
   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
 `
 
@@ -36,7 +36,8 @@ dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
 `
 
 const KeywordContainer = tw.div`
-  z-[3] rounded-lg w-[300px] h-[50vh] bg-white absolute p-8 top-[30%]
+  z-[3] rounded-lg w-[280px] h-[30vh] bg-white absolute p-4 top-[100%] right-[25%]
+  border-blue-200 border
 `
 
 const FloatSearch = () => {
@@ -49,7 +50,7 @@ const FloatSearch = () => {
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // setInputData(value);
+    setInputData(value);
     // dispatch(searchItemActions.changeSearchItem({ data: value } as searchItem));
   }
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -70,7 +71,7 @@ const FloatSearch = () => {
 
   return (
     <div>
-      <SearchForm >
+      <SearchForm onSubmit={(e: HTMLFormElement) => { e.preventDefault(); searchHistroy.Search(inputData); }}>
         <label className="sr-only">Search</label>
         <SearchFormWrapper>
           <SearchIcon>
@@ -89,18 +90,15 @@ const FloatSearch = () => {
         {isRecent ? <KeywordContainer>
           {searchHistroy.list !== null && searchHistroy.list.length > 0
             ? searchHistroy.list.map((historyData, idx) => {
-              console.log(historyData)
-              if (historyData !== null)
-                return (
-
-                  <div key={idx}
-                    onMouseDown={() => { searchHistroy.Search(historyData) }}>
-                    {historyData}
-                  </div>
-                )
+              return (
+                <div key={idx}
+                  onMouseDown={() => { searchHistroy.Search(historyData) }}>
+                  {historyData}
+                </div>
+              )
             }) : <div></div>}
         </KeywordContainer> : null}
-        <SearchButton type="submit" onClick={searchHistroy.Search(inputData)}>
+        <SearchButton type="submit">
           <svg aria-hidden="true" className="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>Search
         </SearchButton>

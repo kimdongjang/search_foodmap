@@ -7,8 +7,8 @@ import "../styles/globals.scss"
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   const MyComponent = Component as any;
   return (
-    <AppLayout>      
-        <MyComponent {...pageProps} />
+    <AppLayout>
+      <MyComponent {...pageProps} />
     </AppLayout>
   )
 };

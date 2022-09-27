@@ -11,43 +11,43 @@ export default function Navbar() {
   return (
     <nav className={styles.navbarSection}>
       <div className={styles.navbarSection__navigation}>
-          {/* x는 수평방향 조절, y는 수직방향 조절 */}
-          <div className={styles.navbarSection__navigation__inner}>
-            <div>
-              <Link href="/">
-                <a className={styles.navbarSection__navigation__innerContent}>Home</a>
-              </Link>
-            </div>
-            <div>
-              <Link href="/search">
-                <a className={styles.navbarSection__navigation__innerContent}>Search</a>
-              </Link>
-            </div>
-            {/* sm크기 일경우엔 안보이고, md크기 부터는 display:flex 적용 */}
-            <div className={styles.navbarSection__navigation__innerHidden}>
-              <Link href="/contact">
-                <a className={styles.navbarSection__navigation__innerContent}>Contact Us</a>
-              </Link>
-              <Link href="/boards">
-                <a className={styles.navbarSection__navigation__innerContent}>게시판</a>
-              </Link>
-            </div>
+        {/* x는 수평방향 조절, y는 수직방향 조절 */}
+        <div className={styles.navbarSection__navigation__inner}>
+          <div>
+            <Link href="/">
+              <a className={styles.navbarSection__navigation__innerContent}>Home</a>
+            </Link>
           </div>
+          <div>
+            <Link href="/search">
+              <a className={styles.navbarSection__navigation__innerContent}>Search</a>
+            </Link>
+          </div>
+          {/* sm크기 일경우엔 안보이고, md크기 부터는 display:flex 적용 */}
           <div className={styles.navbarSection__navigation__innerHidden}>
-            <div className={styles.navbarSection__navigation__innerButton}>
-              <Link href="/login">
-                <a>로그인</a>
-              </Link>
-            </div>
-          </div>
-          <div className='md:hidden flex items-center'>
-            {!menuToggle ? (
-              <AiOutlineMenu onClick={() => setMenuToggle(!menuToggle)}
-                className="hover:cursor-pointer" />
-            ) : (<AiOutlineClose onClick={() => setMenuToggle(!menuToggle)}
-              className="hover:cursor-pointer" />)}
+            <Link href="/contact">
+              <a className={styles.navbarSection__navigation__innerContent}>Contact Us</a>
+            </Link>
+            <Link href="/boards">
+              <a className={styles.navbarSection__navigation__innerContent}>게시판</a>
+            </Link>
           </div>
         </div>
+        <div className={styles.navbarSection__navigation__innerHidden}>
+          <div className={styles.navbarSection__navigation__innerButton}>
+            <Link href="/login">
+              <a>로그인</a>
+            </Link>
+          </div>
+        </div>
+        <div className='md:hidden flex items-center'>
+          {!menuToggle ? (
+            <AiOutlineMenu onClick={() => setMenuToggle(!menuToggle)}
+              className="hover:cursor-pointer" />
+          ) : (<AiOutlineClose onClick={() => setMenuToggle(!menuToggle)}
+            className="hover:cursor-pointer" />)}
+        </div>
+      </div>
 
       {/* mobile menu items */}
       <div className={classNames("md:hidden", { hidden: !menuToggle })}>

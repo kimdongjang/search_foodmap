@@ -4,11 +4,12 @@ import Navbar from "./Navbar"
 
 
 export default function Header() {
-    return (<div className={styles.headerWrap}>
-        <Head>
-            <title>주변 푸드 찾기</title>
-        </Head>
-        <Navbar></Navbar>
-    </div>
+    return (
+        <div >
+            <Head>
+                <title>주변 푸드 찾기</title>
+            </Head>
+            <Navbar></Navbar>
+        </div>
     )
 }

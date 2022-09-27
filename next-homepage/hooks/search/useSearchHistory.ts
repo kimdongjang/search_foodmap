@@ -18,6 +18,7 @@ const useSearchHistory = () => {
   useEffect(() => {
     try {
       const list: any[] = JSON.parse(localStorage.getItem('searchHistory'))
+      console.log(list)
       if (list === null || list.length === undefined) return
       else {
         setList(list)
@@ -29,7 +30,6 @@ const useSearchHistory = () => {
 
   const Search = (text: string) => {
     if (text === '' || text === undefined) return
-    alert(text)
     var isOverlap = false
     list.filter((value) => {
       if (value === text) {
@@ -41,12 +41,16 @@ const useSearchHistory = () => {
       dispatch(searchItemActions.changeSearchItem({ data: text } as searchItem))
       localStorage.setItem('searchHistory', JSON.stringify(list))
     }
-    router.push({
-      pathname: '/',
-      query: {
-        keyword: text,
-      },
-    })
+    alert(router.pathname)
+    if (router.pathname === '/') {
+    } else {
+      router.push({
+        pathname: '/',
+        query: {
+          keyword: text,
+        },
+      })
+    }
   }
 
   return {
