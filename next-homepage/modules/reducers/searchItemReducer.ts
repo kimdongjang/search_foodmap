@@ -6,13 +6,11 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
-import { Product } from '../../interfaces/Product'
+import { Product } from '../../types/Product'
 
 // state type(interface)
 export interface searchItem {
   data: string
-  lat?: number
-  lng?: number
 }
 const internalInitialState: searchItem = {
   data: '',
@@ -30,6 +28,7 @@ const searchItemSlice = createSlice({
   initialState: internalInitialState,
   reducers: {
     changeSearchItem: (state, action: PayloadAction<searchItem>) => {
+      console.log(action.payload.data)
       state.data = action.payload.data
     },
   },

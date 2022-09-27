@@ -15,6 +15,7 @@ import FloatMarkerList from "../components/search/FloatMarkerList";
 import styled from "styled-components";
 import tw from "tailwind-styled-components";
 import FloatSearch from "../components/search/FloatSearch";
+import { useSelector } from "react-redux";
 
 const IndexWrapper = tw.div`
   flex
@@ -50,6 +51,7 @@ interface locationType {
 }
 
 const Index: NextPage = (props: any) => {
+  const keyword: string = useSelector((state: any) => state.searchItemReducer.data)
   /**
    * 모바일인지 체크
    * @returns 
@@ -57,6 +59,8 @@ const Index: NextPage = (props: any) => {
   const isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
+
+
   /**
    * geolocation으로 현재 위치의 lat, lng 확인
    */
@@ -64,17 +68,19 @@ const Index: NextPage = (props: any) => {
     loaded: false,
     coordinates: { lat: 0, lng: 0, }
   })
-
   const [markerList, setMarkerList] = useState<Shop[]>([]);
   /**
    * 키워드와 위치를 기준으로 음식점 검색
    */
-  async function searchShopList() {
+
+
+  async function searchShopList(lat: number, lng: number) {
     try {
+      if (keyword === '') return;
       const query = {
-        keyword: queries.keyword,
-        lat: location.coordinates.lat,
-        lng: location.coordinates.lng,
+        keyword: keyword,
+        lat: lat,
+        lng: lng,
         radius: 2,
       }
       let list = await axios.get(process.env.NEXT_PUBLIC_DEVELOPMENT_DESTINATION_URL + "api/shop/search/list", { params: query })
@@ -133,7 +139,7 @@ const Index: NextPage = (props: any) => {
 
   useEffect(() => {
     if (location.coordinates.lat === 0 || location.coordinates.lng === 0) return;
-    searchShopList();
+    searchShopList(location.coordinates.lat, location.coordinates.lng);
 
   }, [location])
 
@@ -149,7 +155,8 @@ const Index: NextPage = (props: any) => {
         </GeoApply> : null}
 
       <MapWrapper>
-        <KakaoMap latitude={location.coordinates.lat} longitude={location.coordinates.lng} markerList={markerList} />
+        <KakaoMap latitude={location.coordinates.lat} longitude={location.coordinates.lng}
+          markerList={markerList} searchShopList={searchShopList} />
         <FloatSearchWrapper>
           <FloatSearch />
         </FloatSearchWrapper>

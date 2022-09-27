@@ -6,7 +6,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk"
 import { mapData } from "../../types/mapData";
 
 
-export default function KakaoMap({ latitude, longitude, markerList = [] }: mapData<Shop>) {
+export default function KakaoMap({ latitude, longitude, markerList = [], searchShopList }: mapData<Shop>) {
     const [state, setState] = useState<kakao.maps.event.EventTarget>()
 
     useEffect(() => {
@@ -80,14 +80,19 @@ export default function KakaoMap({ latitude, longitude, markerList = [] }: mapDa
                 lng: map.getCenter().getLng(),
             }
         })
+        searchShopList(map.getCenter().getLat(), map.getCenter().getLng())
     }
 
     const moveCenter = () => {
         setState({
-            center: { lat: 33.45058, lng: 126.574942 },
+            center: { lat: latitude, lng: longitude },
             isPanto: true,
         })
     }
+
+    useEffect(() => {
+        moveCenter();
+    }, [])
 
     return (
         <Map id="map" style={{ width: "100%", height: "80vh" }} center={{ lat: latitude, lng: longitude }}

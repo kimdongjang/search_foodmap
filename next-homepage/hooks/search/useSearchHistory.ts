@@ -28,6 +28,11 @@ const useSearchHistory = () => {
     }
   }, [])
 
+  /**
+   * 검색 기능
+   * @param text
+   * @returns
+   */
   const Search = (text: string) => {
     if (text === '' || text === undefined) return
     var isOverlap = false
@@ -38,10 +43,14 @@ const useSearchHistory = () => {
     })
     if (!isOverlap) {
       list.push(text)
-      dispatch(searchItemActions.changeSearchItem({ data: text } as searchItem))
       localStorage.setItem('searchHistory', JSON.stringify(list))
     }
-    alert(router.pathname)
+    console.log('do search')
+    // 현재 선택중인 아이템 변경
+    dispatch(searchItemActions.changeSearchItem({ data: text } as searchItem))
+    /**
+     * home 화면이면 redirect 하지 않고 센터만 이동
+     */
     if (router.pathname === '/') {
     } else {
       router.push({
