@@ -17,6 +17,7 @@ import searchItemSlice from './reducers/searchItemReducer'
 import { testSlice } from './reducers/apiReducer'
 import { useDispatch } from 'react-redux'
 
+// 현재 앱에서 사용되는 리듀서를 합침
 const combinedReducers = combineReducers({
   authReducer: authSlice.reducer,
   testReducer: testSlice.reducer,
@@ -24,6 +25,7 @@ const combinedReducers = combineReducers({
 })
 export type OurStore = ReturnType<typeof combinedReducers>
 
+// 메인 리듀서 정의
 const rootReducer = (
   state: ReturnType<typeof combinedReducers>,
   action: AnyAction
@@ -48,8 +50,6 @@ export type AppDispatch = typeof store.dispatch
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const wrapper = createWrapper(makeStore, { debug: true })
 // export const wrapper = createWrapper(makeStore, { storeKey: 'key' })
-
-export type ThunkDispatch = typeof store.dispatch
 
 // 미들웨어 끼리 묶음
 // const bindMiddleware = (middlewares: Middleware[]): StoreEnhancer => {

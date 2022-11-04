@@ -7,7 +7,7 @@ import React, { FormEventHandler, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { ThunkDispatch } from '../modules/store'
+import { useAppDispatch } from '../modules/store'
 import { login } from "../modules/reducers/authReducer";
 
 
@@ -28,7 +28,7 @@ const Login: NextPage = (props: any) => {
     const recaptchaRef = useRef<any>();
     const router = useRouter()
 
-    const dispatch: ThunkDispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
 
     useEffect(() => {
@@ -65,11 +65,11 @@ const Login: NextPage = (props: any) => {
                 <div className="w-full sm:max-w-md p-5 mx-auto">
                     <h2 className="mb-12 text-center text-5xl font-extrabold">Welcome.</h2>
                     <form onSubmit={handleSubmit}>
-                        <ReCAPTCHA_DOM
+                        {/* <ReCAPTCHA_DOM
                             ref={recaptchaRef}
                             sitekey={sitekey}
                             size="normal"
-                            onChange={onReCAPTCHAChange} />
+                            onChange={onReCAPTCHAChange} /> */}
                         <div className="mb-4">
                             <label className="block mb-1" >Email-Address</label>
                             <input type="text" className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
@@ -91,8 +91,8 @@ const Login: NextPage = (props: any) => {
                             <button className="w-full inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold capitalize text-white hover:bg-red-700 active:bg-red-700 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 disabled:opacity-25 transition"
                                 type="submit">Sign In</button>
                         </div>
-                        <div className="mt-6 text-center">
-                            <a href="#" className="underline">Sign up for an account</a>
+                        <div className="mt-6 text-center cursor-pointer">
+                            <a className="underline" onClick={() => router.push('/account')}>Sign up for an account</a>
                         </div>
                     </form>
                 </div>

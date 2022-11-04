@@ -5,6 +5,11 @@ import {
 } from '@reduxjs/toolkit'
 import axios from 'axios'
 
+
+/**
+ * 액세스 토큰을 클라이언트 메모리 어딘가에 저장하기 위해 redux toolkit을 사용
+ */
+
 export enum AuthStates {
   IDLE = 'idle',
   LOADING = 'loading',

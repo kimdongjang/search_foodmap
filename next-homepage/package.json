@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",    
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -52,7 +52,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
     "sass": "^1.54.8",
-    "set-cookie-parser": "^2.5.0",
+    "set-cookie-parser": "^2.5.1",
     "store": "^2.0.12",
     "styled-components": "^5.3.5",
     "tailwind-styled-components": "^2.1.8",
