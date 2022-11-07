@@ -5,8 +5,6 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit'
-import { AxiosError } from 'axios'
-import { Product } from '../../types/Product'
 
 // state type(interface)
 export interface searchItem {
@@ -15,9 +13,6 @@ export interface searchItem {
 const internalInitialState: searchItem = {
   data: '',
 }
-
-// const changeSearchItem = createAction<searchItem>('changeSearchItem');
-
 // builder 형식의 typescript 구성
 // const searchItemReducer = createReducer(internalInitialState, builder => {
 //   builder.addCase(changeSearchItem, (state, action: PayloadAction<searchItem>) => action.payload)

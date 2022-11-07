@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { OurStore, useAppDispatch } from '../modules/store'
 import { login } from "../modules/reducers/authReducer";
+import { user, userActions } from "../modules/reducers/userReducer";
+import jwtDecode, { JwtPayload } from 'jwt-decode'
 
 
 interface LoginType {
@@ -45,7 +47,13 @@ const Login: NextPage = (props: any) => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         await dispatch(login({ email: email, password: password }));
-        if (loginState.isLogin) router.push('/search');
+        console.log(loginState)
+        if (loginState.isLogin) {
+            const decodedToken: user = jwtDecode<user>(loginState.accessToken);
+            console.log(decodedToken)
+            userActions.setUser({ email: decodedToken.email, name: decodedToken.username });
+            router.push('/search');
+        }
         else {
             setIsLogin(false);
         }
