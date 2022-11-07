@@ -16,6 +16,9 @@ import styled from "styled-components";
 import tw from "tailwind-styled-components";
 import FloatSearch from "../components/search/FloatSearch";
 import { useSelector } from "react-redux";
+import { user } from "../lib/authorize";
+import { AppDispatch } from "../modules/store";
+import { fetchUser, updateAccessToken } from "../modules/reducers/authReducer";
 
 const IndexWrapper = tw.div`
   flex
@@ -171,11 +174,24 @@ const Index: NextPage = (props: any) => {
   )
 }
 
-Index.getInitialProps = async (ctx: NextPageContext) => {
-  const { token } = nextCookie(ctx);
-  console.log(token)
-  return { token }
-}
+export const getServerSideProps = user({
+  callback: async (_, store) => {
+    const { dispatch }: { dispatch: AppDispatch } = store
+    await dispatch(fetchUser())
+
+    return {
+      props: {
+        frogs: store.getState().authReducer.accessToken,
+      },
+    }
+  },
+})
+
+// Index.getInitialProps = async (ctx: NextPageContext) => {
+//   const { token } = nextCookie(ctx);
+//   console.log(token)
+//   return { token }
+// }
 // https://codesandbox.io/s/oxy3e?file=/pages/api/profile.js
 
 export default Index;

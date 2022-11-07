@@ -5,7 +5,6 @@ import {
 } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-
 /**
  * 액세스 토큰을 클라이언트 메모리 어딘가에 저장하기 위해 redux toolkit을 사용
  */
@@ -80,7 +79,6 @@ export const login = createAsyncThunk(
         'auth/login',
         credentials
       )
-      console.log(response.data.accessToken)
 
       // const refetch = await axios.get<{ email: string }>('/api/users/profile', {
       //   headers: { Authorization: `Bearer ${response.data.accessToken}` },
@@ -125,7 +123,7 @@ const internalInitialState: AuthSliceState = {
 }
 
 export const authSlice = createSlice({
-  name: 'auth', // nme of the slice taht we will use
+  name: 'auth', // name of the slice taht we will use
   initialState: internalInitialState,
   reducers: {
     updateAccessToken: (state: AuthSliceState, action) => {
@@ -145,11 +143,13 @@ export const authSlice = createSlice({
     })
     builder.addCase(login.rejected, (state, action) => {
       // 1. Reset state with initial state + add error to state.
-      console.log('extra reducers')
+      // console.log('extra reducers')
       // thunkAPI.rejectWithValue를 통해 에러가 발생할 경우, 초기 상태로 돌리고 에러를 반환
+      console.log(state)
       state = { ...internalInitialState, error: action.error }
+      console.log(state)
       // 2. VERY IMPORTANT! Throw an error!
-      throw new Error(action.error.message)
+      // throw new Error(action.error.message)
     })
     builder.addCase(login.pending, (state, _action) => {
       // Update the state.

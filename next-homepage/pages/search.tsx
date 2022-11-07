@@ -120,9 +120,6 @@ const Search: NextPage = (props: any) => {
    */
   useEffect(() => {
     const test = async () => {
-      // const apiAction = await dispatch(testFetch());
-      // const img = unwrapResult(apiAction);
-      // console.log(img)
     }
     test();
 

@@ -5,9 +5,9 @@ import Email from "next-auth/providers/email";
 // import { signIn, useSession } from "next-auth/react";
 import React, { FormEventHandler, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { useAppDispatch } from '../modules/store'
+import { OurStore, useAppDispatch } from '../modules/store'
 import { login } from "../modules/reducers/authReducer";
 
 
@@ -27,6 +27,9 @@ const Login: NextPage = (props: any) => {
     const [sitekey, setSitekey] = useState<string>("");
     const recaptchaRef = useRef<any>();
     const router = useRouter()
+    const loginState = useSelector((state: OurStore) => state.authReducer);
+    const [isLogin, setIsLogin] = useState<boolean>(true);
+
 
     const dispatch = useAppDispatch();
 
@@ -42,7 +45,10 @@ const Login: NextPage = (props: any) => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         await dispatch(login({ email: email, password: password }));
-        router.push('/search');
+        if (loginState.isLogin) router.push('/search');
+        else {
+            setIsLogin(false);
+        }
         // recaptchaRef.current.execute();
 
     }
@@ -89,8 +95,15 @@ const Login: NextPage = (props: any) => {
                         </div>
                         <div className="mt-6">
                             <button className="w-full inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold capitalize text-white hover:bg-red-700 active:bg-red-700 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 disabled:opacity-25 transition"
-                                type="submit">Sign In</button>
+                                type="submit">Log In</button>
                         </div>
+                        {
+                            !isLogin ? <div>
+                                <a href="#" className="text-sm text-red-600">Login is failed</a>
+                            </div>
+                                :
+                                <div></div>
+                        }
                         <div className="mt-6 text-center cursor-pointer">
                             <a className="underline" onClick={() => router.push('/account')}>Sign up for an account</a>
                         </div>

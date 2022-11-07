@@ -38,19 +38,23 @@ interface AuthorizeProps {
 }
 
 export const authorize = async ({ context, callback }: AuthorizeProps) => {
+  // 필요한 변수를 분해
   const { store, req: request, res: response } = context
   const { dispatch }: { dispatch: AppDispatch } = store // get dispatch action
   const { accessToken } = store.getState().authReducer // get accessToken from memory - redux.
   // 클라이언트 브라우저에서 새로고침 토큰 쿠키를 가져옴
   if (request) {
-    // 1. We take cookies (refresh_token) from the client's browser and set it as ours (server-side)
+    // We take cookies (refresh_token) from the client's browser and set it as ours (server-side)
+
     axiosInstance.defaults.headers.cookie = request.headers.cookie || null
 
     // 1a. If accessToken exists assign it as Authorization token in our axios instance.
+    // 처음에 획득한 액세스토큰이 있을 경우 axios 인스턴스에 할당
     if (accessToken)
       axiosInstance.defaults.headers.Authorization = `Bearer ${accessToken}`
 
     if (!accessToken) {
+      // 액세스 토큰이 없을 경우
       // No accessToken path:
       // You're probably revisiting the size cuz the accessToken
       // is not available in the server store. Or you refreshed the page.
